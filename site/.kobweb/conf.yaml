@@ -1,0 +1,14 @@
+site:
+  title: "BlogMultiplatform"
+
+server:
+  files:
+    dev:
+      contentRoot: "build/processedResources/js/main/public"
+      script: "build/developmentExecutable/blogmultiplatform.js"
+      api: "build/libs/blogmultiplatform.jar"
+    prod:
+      script: "build/distributions/blogmultiplatform.js"
+      siteRoot: ".kobweb/site"
+
+  port: 8080
