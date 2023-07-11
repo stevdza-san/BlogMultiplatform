@@ -9,3 +9,4 @@ pluginManagement {
 rootProject.name = "BlogMultiplatform"
 
 include(":site")
+include(":site:commonMain")
