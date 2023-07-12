@@ -38,4 +38,14 @@ class MongoDB(private val context: InitApiContext) : MongoRepository {
             null
         }
     }
+
+    override suspend fun checkUserId(id: String): Boolean {
+        return try {
+            val documentCount = userCollection.countDocuments(User::id eq id).awaitFirst()
+            documentCount > 0
+        } catch (e: Exception) {
+            context.logger.error(e.message.toString())
+            false
+        }
+    }
 }
