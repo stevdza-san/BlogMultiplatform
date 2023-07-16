@@ -24,6 +24,10 @@ enum class Theme(
         hex = "#FFFFFF",
         rgb = rgba(r = 255, g = 255, b = 255, a = 0.5)
     ),
+    HalfBlack(
+        hex = "#000000",
+        rgb = rgba(r = 0, g = 0, b = 0, a = 0.5)
+    ),
     White(
         hex = "#FFFFFF",
         rgb = rgb(r = 255, g = 255, b = 255)
