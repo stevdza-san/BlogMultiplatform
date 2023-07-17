@@ -16,7 +16,7 @@ import org.jetbrains.compose.web.css.px
 
 @Composable
 fun AdminPageLayout(content: @Composable () -> Unit) {
-    var overflowMenuOpened by remember { mutableStateOf(false) }
+    var overflowOpened by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -27,11 +27,11 @@ fun AdminPageLayout(content: @Composable () -> Unit) {
                 .maxWidth(PAGE_WIDTH.px)
         ) {
             SidePanel(onMenuClick = {
-                overflowMenuOpened = true
+                overflowOpened = true
             })
-            if(overflowMenuOpened) {
+            if(overflowOpened) {
                 OverflowSidePanel(onMenuClose = {
-                    overflowMenuOpened = false
+                    overflowOpened = false
                 })
             }
             content()
