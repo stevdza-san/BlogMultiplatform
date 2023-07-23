@@ -12,6 +12,8 @@ import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
 import com.example.blogmultiplatform.util.Constants.SIDE_PANEL_WIDTH
 import com.example.blogmultiplatform.util.isUserLoggedIn
 import com.varabyte.kobweb.compose.css.Cursor
+import com.varabyte.kobweb.compose.css.FontWeight
+import com.varabyte.kobweb.compose.file.loadDataUrlFromDisk
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -26,16 +28,20 @@ import com.varabyte.kobweb.compose.ui.modifiers.borderRadius
 import com.varabyte.kobweb.compose.ui.modifiers.classNames
 import com.varabyte.kobweb.compose.ui.modifiers.color
 import com.varabyte.kobweb.compose.ui.modifiers.cursor
+import com.varabyte.kobweb.compose.ui.modifiers.disabled
+import com.varabyte.kobweb.compose.ui.modifiers.fillMaxHeight
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxWidth
 import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
+import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
 import com.varabyte.kobweb.compose.ui.modifiers.height
 import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.maxWidth
 import com.varabyte.kobweb.compose.ui.modifiers.onClick
 import com.varabyte.kobweb.compose.ui.modifiers.outline
 import com.varabyte.kobweb.compose.ui.modifiers.padding
+import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.silk.components.forms.Switch
@@ -45,10 +51,12 @@ import com.varabyte.kobweb.silk.components.layout.numColumns
 import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
+import kotlinx.browser.document
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.A
+import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Input
 import org.jetbrains.compose.web.dom.Li
 import org.jetbrains.compose.web.dom.Text
@@ -68,6 +76,8 @@ fun CreateScreen() {
     var popularChecked by remember { mutableStateOf(false) }
     var mainChecked by remember { mutableStateOf(false) }
     var sponsoredChecked by remember { mutableStateOf(false) }
+    var thumbnailInputDisabled by remember { mutableStateOf(true) }
+    var fileName by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf(Category.Programming) }
     AdminPageLayout {
         Box(
@@ -202,6 +212,34 @@ fun CreateScreen() {
                     selectedCategory = selectedCategory,
                     onCategorySelect = { selectedCategory = it }
                 )
+                Row(
+                    modifier = Modifier.fillMaxWidth().margin(topBottom = 12.px),
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Switch(
+                        modifier = Modifier.margin(right = 8.px),
+                        checked = !thumbnailInputDisabled,
+                        onCheckedChange = { thumbnailInputDisabled = !it },
+                        size = SwitchSize.MD
+                    )
+                    SpanText(
+                        modifier = Modifier
+                            .fontSize(14.px)
+                            .fontFamily(FONT_FAMILY)
+                            .color(Theme.HalfBlack.rgb),
+                        text = "Paste an Image URL instead"
+                    )
+                }
+                ThumbnailUploader(
+                    thumbnail = fileName,
+                    thumbnailInputDisabled = thumbnailInputDisabled,
+                    onThumbnailSelect = { filename, file ->
+                        fileName = filename
+                        println(filename)
+                        println(file)
+                    }
+                )
             }
         }
     }
@@ -261,6 +299,86 @@ fun CategoryDropdown(
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun ThumbnailUploader(
+    thumbnail: String,
+    thumbnailInputDisabled: Boolean,
+    onThumbnailSelect: (String, String) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .margin(bottom = 20.px)
+            .height(54.px)
+    ) {
+        Input(
+            type = InputType.Text,
+            attrs = Modifier
+                .fillMaxSize()
+                .margin(right = 12.px)
+                .padding(leftRight = 20.px)
+                .backgroundColor(Theme.LightGray.rgb)
+                .borderRadius(r = 4.px)
+                .border(
+                    width = 0.px,
+                    style = LineStyle.None,
+                    color = Colors.Transparent
+                )
+                .outline(
+                    width = 0.px,
+                    style = LineStyle.None,
+                    color = Colors.Transparent
+                )
+                .fontFamily(FONT_FAMILY)
+                .fontSize(16.px)
+                .thenIf(
+                    condition = thumbnailInputDisabled,
+                    other = Modifier.disabled()
+                )
+                .toAttrs {
+                    attr("placeholder", "Thumbnail")
+                    attr("value", thumbnail)
+                }
+        )
+        Button(
+            attrs = Modifier
+                .onClick {
+                    document.loadDataUrlFromDisk(
+                        accept = "image/png, image/jpeg",
+                        onLoaded = {
+                            onThumbnailSelect(filename, it)
+                        }
+                    )
+                }
+                .fillMaxHeight()
+                .padding(leftRight = 24.px)
+                .backgroundColor(if (!thumbnailInputDisabled) Theme.Gray.rgb else Theme.Primary.rgb)
+                .color(if (!thumbnailInputDisabled) Theme.DarkGray.rgb else Colors.White)
+                .borderRadius(r = 4.px)
+                .border(
+                    width = 0.px,
+                    style = LineStyle.None,
+                    color = Colors.Transparent
+                )
+                .outline(
+                    width = 0.px,
+                    style = LineStyle.None,
+                    color = Colors.Transparent
+                )
+                .fontFamily(FONT_FAMILY)
+                .fontWeight(FontWeight.Medium)
+                .fontSize(14.px)
+                .thenIf(
+                    condition = !thumbnailInputDisabled,
+                    other = Modifier.disabled()
+                )
+                .toAttrs()
+        ) {
+            SpanText(text = "Upload")
         }
     }
 }
