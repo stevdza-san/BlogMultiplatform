@@ -1,5 +1,6 @@
 package com.example.blogmultiplatform.data
 
+import com.example.blogmultiplatform.models.Post
 import com.example.blogmultiplatform.models.User
 import com.varabyte.kobweb.api.data.add
 import com.varabyte.kobweb.api.init.InitApi
@@ -23,6 +24,11 @@ class MongoDB(private val context: InitApiContext) : MongoRepository {
     private val client = KMongo.createClient()
     private val database = client.getDatabase("my_blog")
     private val userCollection = database.getCollection<User>()
+    private val postCollection = database.getCollection<Post>()
+
+    override suspend fun addPost(post: Post): Boolean {
+        return postCollection.insertOne(post).awaitFirst().wasAcknowledged()
+    }
 
     override suspend fun checkUserExistence(user: User): User? {
         return try {
