@@ -9,11 +9,17 @@ import com.example.blogmultiplatform.models.Category
 import com.example.blogmultiplatform.components.AdminPageLayout
 import com.example.blogmultiplatform.models.EditorKey
 import com.example.blogmultiplatform.models.Theme
+import com.example.blogmultiplatform.styles.EditorKeyStyle
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
 import com.example.blogmultiplatform.util.Constants.SIDE_PANEL_WIDTH
+import com.example.blogmultiplatform.util.Id
 import com.example.blogmultiplatform.util.isUserLoggedIn
 import com.varabyte.kobweb.compose.css.Cursor
 import com.varabyte.kobweb.compose.css.FontWeight
+import com.varabyte.kobweb.compose.css.Overflow
+import com.varabyte.kobweb.compose.css.Resize
+import com.varabyte.kobweb.compose.css.ScrollBehavior
+import com.varabyte.kobweb.compose.css.Visibility
 import com.varabyte.kobweb.compose.file.loadDataUrlFromDisk
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Box
@@ -37,11 +43,17 @@ import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
 import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
 import com.varabyte.kobweb.compose.ui.modifiers.height
+import com.varabyte.kobweb.compose.ui.modifiers.id
 import com.varabyte.kobweb.compose.ui.modifiers.margin
+import com.varabyte.kobweb.compose.ui.modifiers.maxHeight
 import com.varabyte.kobweb.compose.ui.modifiers.maxWidth
 import com.varabyte.kobweb.compose.ui.modifiers.onClick
 import com.varabyte.kobweb.compose.ui.modifiers.outline
+import com.varabyte.kobweb.compose.ui.modifiers.overflow
 import com.varabyte.kobweb.compose.ui.modifiers.padding
+import com.varabyte.kobweb.compose.ui.modifiers.resize
+import com.varabyte.kobweb.compose.ui.modifiers.scrollBehavior
+import com.varabyte.kobweb.compose.ui.modifiers.visibility
 import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.Page
@@ -51,6 +63,7 @@ import com.varabyte.kobweb.silk.components.graphics.Image
 import com.varabyte.kobweb.silk.components.layout.SimpleGrid
 import com.varabyte.kobweb.silk.components.layout.numColumns
 import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
+import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import kotlinx.browser.document
@@ -59,9 +72,11 @@ import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Button
+import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Input
 import org.jetbrains.compose.web.dom.Li
 import org.jetbrains.compose.web.dom.Text
+import org.jetbrains.compose.web.dom.TextArea
 import org.jetbrains.compose.web.dom.Ul
 
 @Page
@@ -79,8 +94,10 @@ fun CreateScreen() {
     var mainChecked by remember { mutableStateOf(false) }
     var sponsoredChecked by remember { mutableStateOf(false) }
     var thumbnailInputDisabled by remember { mutableStateOf(true) }
+    var editorVisibility by remember { mutableStateOf(true) }
     var fileName by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf(Category.Programming) }
+
     AdminPageLayout {
         Box(
             modifier = Modifier
@@ -242,7 +259,37 @@ fun CreateScreen() {
                         println(file)
                     }
                 )
-                EditorControls(breakpoint = breakpoint)
+                EditorControls(
+                    breakpoint = breakpoint,
+                    editorVisibility = editorVisibility,
+                    onEditorVisibilityChange = { editorVisibility = !editorVisibility }
+                )
+                Editor(editorVisibility = editorVisibility)
+                Button(
+                    attrs = Modifier
+                        .onClick {  }
+                        .fillMaxWidth()
+                        .height(54.px)
+                        .margin(top = 24.px)
+                        .backgroundColor(Theme.Primary.rgb)
+                        .color(Colors.White)
+                        .borderRadius(r = 4.px)
+                        .border(
+                            width = 0.px,
+                            style = LineStyle.None,
+                            color = Colors.Transparent
+                        )
+                        .outline(
+                            width = 0.px,
+                            style = LineStyle.None,
+                            color = Colors.Transparent
+                        )
+                        .fontFamily(FONT_FAMILY)
+                        .fontSize(16.px)
+                        .toAttrs()
+                ) {
+                    SpanText(text = "Create")
+                }
             }
         }
     }
@@ -387,9 +434,16 @@ fun ThumbnailUploader(
 }
 
 @Composable
-fun EditorControls(breakpoint: Breakpoint) {
+fun EditorControls(
+    breakpoint: Breakpoint,
+    editorVisibility: Boolean,
+    onEditorVisibilityChange: () -> Unit
+) {
     Box(modifier = Modifier.fillMaxWidth()) {
-        SimpleGrid(numColumns = numColumns(base = 1, sm = 2)) {
+        SimpleGrid(
+            modifier = Modifier.fillMaxWidth(),
+            numColumns = numColumns(base = 1, sm = 2)
+        ) {
             Row(
                 modifier = Modifier
                     .backgroundColor(Theme.LightGray.rgb)
@@ -404,11 +458,21 @@ fun EditorControls(breakpoint: Breakpoint) {
                 Button(
                     attrs = Modifier
                         .height(54.px)
+                        .thenIf(
+                            condition = breakpoint < Breakpoint.SM,
+                            other = Modifier.fillMaxWidth()
+                        )
                         .margin(topBottom = if (breakpoint < Breakpoint.SM) 12.px else 0.px)
                         .padding(leftRight = 24.px)
                         .borderRadius(r = 4.px)
-                        .backgroundColor(Theme.LightGray.rgb)
-                        .color(Theme.DarkGray.rgb)
+                        .backgroundColor(
+                            if (editorVisibility) Theme.LightGray.rgb
+                            else Theme.Primary.rgb
+                        )
+                        .color(
+                            if (editorVisibility) Theme.DarkGray.rgb
+                            else Colors.White
+                        )
                         .border(
                             width = 0.px,
                             style = LineStyle.None,
@@ -419,7 +483,7 @@ fun EditorControls(breakpoint: Breakpoint) {
                             style = LineStyle.None,
                             color = Colors.Transparent
                         )
-                        .onClick {  }
+                        .onClick { onEditorVisibilityChange() }
                         .toAttrs()
                 ) {
                     SpanText(
@@ -438,7 +502,7 @@ fun EditorControls(breakpoint: Breakpoint) {
 @Composable
 fun EditorKeyView(key: EditorKey) {
     Box(
-        modifier = Modifier
+        modifier = EditorKeyStyle.toModifier()
             .fillMaxHeight()
             .padding(leftRight = 12.px)
             .borderRadius(r = 4.px)
@@ -450,5 +514,72 @@ fun EditorKeyView(key: EditorKey) {
             src = key.icon,
             desc = "${key.name} Icon"
         )
+    }
+}
+
+@Composable
+fun Editor(editorVisibility: Boolean) {
+    Box(modifier = Modifier.fillMaxWidth()) {
+        TextArea(
+            attrs = Modifier
+                .id(Id.editor)
+                .fillMaxWidth()
+                .height(400.px)
+                .maxHeight(400.px)
+                .resize(Resize.None)
+                .margin(top = 8.px)
+                .padding(all = 20.px)
+                .backgroundColor(Theme.LightGray.rgb)
+                .borderRadius(r = 4.px)
+                .border(
+                    width = 0.px,
+                    style = LineStyle.None,
+                    color = Colors.Transparent
+                )
+                .outline(
+                    width = 0.px,
+                    style = LineStyle.None,
+                    color = Colors.Transparent
+                )
+                .visibility(
+                    if (editorVisibility) Visibility.Visible
+                    else Visibility.Hidden
+                )
+                .fontFamily(FONT_FAMILY)
+                .fontSize(16.px)
+                .toAttrs {
+                    attr("placeholder", "Type here...")
+                }
+        )
+        Div(
+            attrs = Modifier
+                .id(Id.editorPreview)
+                .fillMaxWidth()
+                .height(400.px)
+                .maxHeight(400.px)
+                .margin(top = 8.px)
+                .padding(all = 20.px)
+                .backgroundColor(Theme.LightGray.rgb)
+                .borderRadius(r = 4.px)
+                .visibility(
+                    if (editorVisibility) Visibility.Hidden
+                    else Visibility.Visible
+                )
+                .overflow(Overflow.Auto)
+                .scrollBehavior(ScrollBehavior.Smooth)
+                .border(
+                    width = 0.px,
+                    style = LineStyle.None,
+                    color = Colors.Transparent
+                )
+                .outline(
+                    width = 0.px,
+                    style = LineStyle.None,
+                    color = Colors.Transparent
+                )
+                .toAttrs()
+        ) {
+
+        }
     }
 }
