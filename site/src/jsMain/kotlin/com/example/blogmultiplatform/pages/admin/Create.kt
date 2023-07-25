@@ -4,15 +4,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.example.blogmultiplatform.components.AdminPageLayout
 import com.example.blogmultiplatform.models.Category
 import com.example.blogmultiplatform.models.EditorKey
+import com.example.blogmultiplatform.models.Post
 import com.example.blogmultiplatform.models.Theme
 import com.example.blogmultiplatform.styles.EditorKeyStyle
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
 import com.example.blogmultiplatform.util.Constants.SIDE_PANEL_WIDTH
 import com.example.blogmultiplatform.util.Id
+import com.example.blogmultiplatform.util.addPost
 import com.example.blogmultiplatform.util.isUserLoggedIn
 import com.example.blogmultiplatform.util.noBorder
 import com.varabyte.kobweb.compose.css.Cursor
@@ -66,6 +69,8 @@ import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import kotlinx.browser.document
+import kotlinx.browser.localStorage
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.A
@@ -76,6 +81,10 @@ import org.jetbrains.compose.web.dom.Li
 import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.dom.TextArea
 import org.jetbrains.compose.web.dom.Ul
+import org.w3c.dom.HTMLInputElement
+import org.w3c.dom.HTMLTextAreaElement
+import org.w3c.dom.get
+import kotlin.js.Date
 
 data class CreatePageUiEvent(
     var id: String = "",
@@ -101,6 +110,7 @@ fun CreatePage() {
 
 @Composable
 fun CreateScreen() {
+    val scope = rememberCoroutineScope()
     val breakpoint = rememberBreakpoint()
     var uiEvent by remember { mutableStateOf(CreatePageUiEvent()) }
 
@@ -187,6 +197,7 @@ fun CreateScreen() {
                 Input(
                     type = InputType.Text,
                     attrs = Modifier
+                        .id(Id.titleInput)
                         .fillMaxWidth()
                         .height(54.px)
                         .margin(topBottom = 12.px)
@@ -203,6 +214,7 @@ fun CreateScreen() {
                 Input(
                     type = InputType.Text,
                     attrs = Modifier
+                        .id(Id.subtitleInput)
                         .fillMaxWidth()
                         .height(54.px)
                         .padding(leftRight = 20.px)
@@ -242,9 +254,9 @@ fun CreateScreen() {
                     thumbnail = uiEvent.thumbnail,
                     thumbnailInputDisabled = uiEvent.thumbnailInputDisabled,
                     onThumbnailSelect = { filename, file ->
-                        uiEvent = uiEvent.copy(thumbnail = filename)
-                        println(filename)
-                        println(file)
+                        (document.getElementById(Id.thumbnailInput) as HTMLInputElement).value =
+                            filename
+                        uiEvent = uiEvent.copy(thumbnail = file)
                     }
                 )
                 EditorControls(
@@ -257,7 +269,48 @@ fun CreateScreen() {
                     }
                 )
                 Editor(editorVisibility = uiEvent.editorVisibility)
-                CreateButton(onClick = {})
+                CreateButton(
+                    onClick = {
+                        uiEvent =
+                            uiEvent.copy(title = (document.getElementById(Id.titleInput) as HTMLInputElement).value)
+                        uiEvent =
+                            uiEvent.copy(subtitle = (document.getElementById(Id.subtitleInput) as HTMLInputElement).value)
+                        uiEvent =
+                            uiEvent.copy(content = (document.getElementById(Id.editor) as HTMLTextAreaElement).value)
+                        if (!uiEvent.thumbnailInputDisabled) {
+                            uiEvent =
+                                uiEvent.copy(thumbnail = (document.getElementById(Id.thumbnailInput) as HTMLInputElement).value)
+                        }
+                        if (
+                            uiEvent.title.isNotEmpty() &&
+                            uiEvent.subtitle.isNotEmpty() &&
+                            uiEvent.thumbnail.isNotEmpty() &&
+                            uiEvent.content.isNotEmpty()
+                        ) {
+                            scope.launch {
+                                val result = addPost(
+                                    Post(
+                                        author = localStorage["username"].toString(),
+                                        title = uiEvent.title,
+                                        subtitle = uiEvent.subtitle,
+                                        date = Date.now().toLong(),
+                                        thumbnail = uiEvent.thumbnail,
+                                        content = uiEvent.content,
+                                        category = uiEvent.category,
+                                        popular = uiEvent.popular,
+                                        main = uiEvent.main,
+                                        sponsored = uiEvent.sponsored
+                                    )
+                                )
+                                if (result) {
+                                    println("Successful!")
+                                }
+                            }
+                        } else {
+                            println("Please fill out all fields.")
+                        }
+                    }
+                )
             }
         }
     }
@@ -336,6 +389,7 @@ fun ThumbnailUploader(
         Input(
             type = InputType.Text,
             attrs = Modifier
+                .id(Id.thumbnailInput)
                 .fillMaxSize()
                 .margin(right = 12.px)
                 .padding(leftRight = 20.px)

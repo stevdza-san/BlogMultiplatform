@@ -39,4 +39,7 @@ object Id {
     const val navigationText = "navigationText"
     const val editor = "editor"
     const val editorPreview = "editorPreview"
+    const val titleInput = "titleInput"
+    const val subtitleInput = "subtitleInput"
+    const val thumbnailInput = "thumbnailInput"
 }
