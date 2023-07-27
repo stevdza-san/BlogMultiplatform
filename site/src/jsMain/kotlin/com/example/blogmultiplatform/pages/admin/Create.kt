@@ -7,8 +7,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.example.blogmultiplatform.components.AdminPageLayout
+import com.example.blogmultiplatform.components.LinkPopup
 import com.example.blogmultiplatform.components.MessagePopup
 import com.example.blogmultiplatform.models.Category
+import com.example.blogmultiplatform.models.ControlStyle
 import com.example.blogmultiplatform.models.EditorControl
 import com.example.blogmultiplatform.models.Post
 import com.example.blogmultiplatform.models.Theme
@@ -19,6 +21,8 @@ import com.example.blogmultiplatform.util.Constants.SIDE_PANEL_WIDTH
 import com.example.blogmultiplatform.util.Id
 import com.example.blogmultiplatform.util.addPost
 import com.example.blogmultiplatform.util.applyControlStyle
+import com.example.blogmultiplatform.util.applyStyle
+import com.example.blogmultiplatform.util.getSelectedText
 import com.example.blogmultiplatform.util.isUserLoggedIn
 import com.example.blogmultiplatform.util.noBorder
 import com.varabyte.kobweb.compose.css.Cursor
@@ -103,7 +107,8 @@ data class CreatePageUiState(
     var main: Boolean = false,
     var sponsored: Boolean = false,
     var editorVisibility: Boolean = true,
-    var messagePopup: Boolean = false
+    var messagePopup: Boolean = false,
+    var linkPopup: Boolean = false
 )
 
 @Page
@@ -273,6 +278,9 @@ fun CreateScreen() {
                         uiState = uiState.copy(
                             editorVisibility = !uiState.editorVisibility
                         )
+                    },
+                    onLinkClick = {
+                        uiState = uiState.copy(linkPopup = true)
                     }
                 )
                 Editor(editorVisibility = uiState.editorVisibility)
@@ -325,10 +333,24 @@ fun CreateScreen() {
             }
         }
     }
-    if(uiState.messagePopup) {
+    if (uiState.messagePopup) {
         MessagePopup(
             message = "Please fill out all fields.",
-            onDialogDismiss = { uiState = uiState.copy(messagePopup = false)}
+            onDialogDismiss = { uiState = uiState.copy(messagePopup = false) }
+        )
+    }
+    if (uiState.linkPopup) {
+        LinkPopup(
+            onDialogDismiss = { uiState = uiState.copy(linkPopup = false) },
+            onLinkAdded = { href, title ->
+                applyStyle(
+                    ControlStyle.Link(
+                        selectedText = getSelectedText(),
+                        href = href,
+                        title = title
+                    )
+                )
+            }
         )
     }
 }
@@ -458,6 +480,7 @@ fun ThumbnailUploader(
 fun EditorControls(
     breakpoint: Breakpoint,
     editorVisibility: Boolean,
+    onLinkClick: () -> Unit,
     onEditorVisibilityChange: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxWidth()) {
@@ -474,7 +497,12 @@ fun EditorControls(
                 EditorControl.values().forEach {
                     EditorControlView(
                         control = it,
-                        onClick = { applyControlStyle(it) }
+                        onClick = {
+                            applyControlStyle(
+                                editorControl = it,
+                                onLinkClick = onLinkClick
+                            )
+                        }
                     )
                 }
             }

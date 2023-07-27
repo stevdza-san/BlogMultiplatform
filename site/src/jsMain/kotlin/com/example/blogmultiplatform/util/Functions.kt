@@ -82,7 +82,7 @@ fun getSelectedText(): String? {
 fun applyStyle(controlStyle: ControlStyle) {
     val selectedText = getSelectedText()
     val selectedIntRange = getSelectedIntRange()
-    if(selectedIntRange != null && selectedText != null) {
+    if (selectedIntRange != null && selectedText != null) {
         getEditor().value = getEditor().value.replaceRange(
             range = selectedIntRange,
             replacement = controlStyle.style
@@ -91,8 +91,11 @@ fun applyStyle(controlStyle: ControlStyle) {
     }
 }
 
-fun applyControlStyle(editorControl: EditorControl) {
-    when(editorControl) {
+fun applyControlStyle(
+    editorControl: EditorControl,
+    onLinkClick: () -> Unit
+) {
+    when (editorControl) {
         EditorControl.Bold -> {
             applyStyle(
                 ControlStyle.Bold(
@@ -100,6 +103,7 @@ fun applyControlStyle(editorControl: EditorControl) {
                 )
             )
         }
+
         EditorControl.Italic -> {
             applyStyle(
                 ControlStyle.Italic(
@@ -107,7 +111,11 @@ fun applyControlStyle(editorControl: EditorControl) {
                 )
             )
         }
-        EditorControl.Link -> {}
+
+        EditorControl.Link -> {
+            onLinkClick()
+        }
+
         EditorControl.Title -> {
             applyStyle(
                 ControlStyle.Title(
@@ -115,6 +123,7 @@ fun applyControlStyle(editorControl: EditorControl) {
                 )
             )
         }
+
         EditorControl.Subtitle -> {
             applyStyle(
                 ControlStyle.Subtitle(
@@ -122,6 +131,7 @@ fun applyControlStyle(editorControl: EditorControl) {
                 )
             )
         }
+
         EditorControl.Quote -> {
             applyStyle(
                 ControlStyle.Quote(
@@ -129,6 +139,7 @@ fun applyControlStyle(editorControl: EditorControl) {
                 )
             )
         }
+
         EditorControl.Code -> {}
         EditorControl.Image -> {}
     }
