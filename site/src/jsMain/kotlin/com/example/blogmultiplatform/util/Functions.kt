@@ -141,7 +141,13 @@ fun applyControlStyle(
             )
         }
 
-        EditorControl.Code -> {}
+        EditorControl.Code -> {
+            applyStyle(
+                ControlStyle.Code(
+                    selectedText = getSelectedText()
+                )
+            )
+        }
         EditorControl.Image -> {
             onImageClick()
         }
