@@ -22,6 +22,7 @@ import com.example.blogmultiplatform.util.Id
 import com.example.blogmultiplatform.util.addPost
 import com.example.blogmultiplatform.util.applyControlStyle
 import com.example.blogmultiplatform.util.applyStyle
+import com.example.blogmultiplatform.util.getEditor
 import com.example.blogmultiplatform.util.getSelectedText
 import com.example.blogmultiplatform.util.isUserLoggedIn
 import com.example.blogmultiplatform.util.noBorder
@@ -58,6 +59,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.maxHeight
 import com.varabyte.kobweb.compose.ui.modifiers.maxWidth
 import com.varabyte.kobweb.compose.ui.modifiers.onClick
+import com.varabyte.kobweb.compose.ui.modifiers.onKeyDown
 import com.varabyte.kobweb.compose.ui.modifiers.overflow
 import com.varabyte.kobweb.compose.ui.modifiers.padding
 import com.varabyte.kobweb.compose.ui.modifiers.resize
@@ -550,6 +552,7 @@ fun EditorControls(
                         .noBorder()
                         .onClick {
                             onEditorVisibilityChange()
+                            document.getElementById(Id.editorPreview)?.innerHTML = getEditor().value
                             js("hljs.highlightAll()") as Unit
                         }
                         .toAttrs()
@@ -607,6 +610,15 @@ fun Editor(editorVisibility: Boolean) {
                     if (editorVisibility) Visibility.Visible
                     else Visibility.Hidden
                 )
+                .onKeyDown {
+                    if(it.code == "Enter" && it.shiftKey) {
+                        applyStyle(
+                            controlStyle = ControlStyle.Break(
+                                selectedText = getSelectedText()
+                            )
+                        )
+                    }
+                }
                 .fontFamily(FONT_FAMILY)
                 .fontSize(16.px)
                 .toAttrs {

@@ -12,5 +12,5 @@ enum class EditorControl(
     Subtitle(icon = Res.Icon.subtitle),
     Quote(icon = Res.Icon.quote),
     Code(icon = Res.Icon.code),
-    Image(icon = Res.Icon.image),
+    Image(icon = Res.Icon.image)
 }
