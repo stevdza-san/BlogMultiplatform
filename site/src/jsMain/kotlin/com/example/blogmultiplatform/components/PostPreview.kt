@@ -26,13 +26,18 @@ import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.graphics.Image
 import com.varabyte.kobweb.silk.components.layout.SimpleGrid
 import com.varabyte.kobweb.silk.components.layout.numColumns
+import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.text.SpanText
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 
 @Composable
 fun PostPreview(post: PostWithoutDetails) {
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(95.percent)
+            .margin(bottom = 24.px)
+    ) {
         Image(
             modifier = Modifier
                 .margin(bottom = 16.px)
@@ -92,9 +97,15 @@ fun PostPreview(post: PostWithoutDetails) {
 }
 
 @Composable
-fun Posts(posts: List<PostWithoutDetails>) {
+fun Posts(
+    breakpoint: Breakpoint,
+    posts: List<PostWithoutDetails>
+) {
     Column(
-        modifier = Modifier.fillMaxWidth(90.percent),
+        modifier = Modifier.fillMaxWidth(
+            if (breakpoint > Breakpoint.MD) 80.percent
+            else 90.percent
+        ),
         verticalArrangement = Arrangement.Center
     ) {
         SimpleGrid(
