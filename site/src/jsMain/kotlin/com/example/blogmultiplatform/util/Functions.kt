@@ -21,6 +21,7 @@ import org.jetbrains.compose.web.css.px
 import org.w3c.dom.HTMLTextAreaElement
 import org.w3c.dom.get
 import org.w3c.dom.set
+import kotlin.js.Date
 
 @Composable
 fun isUserLoggedIn(content: @Composable () -> Unit) {
@@ -153,3 +154,5 @@ fun applyControlStyle(
         }
     }
 }
+
+fun Long.parseDateString() = Date(this).toLocaleDateString()
