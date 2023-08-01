@@ -5,6 +5,7 @@ import com.example.blogmultiplatform.models.PostWithoutDetails
 import com.example.blogmultiplatform.models.Theme
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
 import com.example.blogmultiplatform.util.parseDateString
+import com.varabyte.kobweb.compose.css.Cursor
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.ObjectFit
 import com.varabyte.kobweb.compose.css.Overflow
@@ -14,6 +15,7 @@ import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.color
+import com.varabyte.kobweb.compose.ui.modifiers.cursor
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxWidth
 import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
@@ -37,6 +39,7 @@ fun PostPreview(post: PostWithoutDetails) {
         modifier = Modifier
             .fillMaxWidth(95.percent)
             .margin(bottom = 24.px)
+            .cursor(Cursor.Pointer)
     ) {
         Image(
             modifier = Modifier
@@ -80,19 +83,13 @@ fun PostPreview(post: PostWithoutDetails) {
                 .overflow(Overflow.Hidden)
                 .styleModifier {
                     property("display", "-webkit-box")
-                    property("-webkit-line-clamp", "2")
-                    property("line-clamp", "2")
+                    property("-webkit-line-clamp", "3")
+                    property("line-clamp", "3")
                     property("-webkit-box-orient", "vertical")
                 },
             text = post.subtitle
         )
-        SpanText(
-            modifier = Modifier
-                .fontFamily(FONT_FAMILY)
-                .fontSize(12.px)
-                .color(Theme.HalfBlack.rgb),
-            text = post.category.name
-        )
+        CategoryChip(category = post.category)
     }
 }
 
