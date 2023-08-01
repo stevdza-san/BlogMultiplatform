@@ -156,3 +156,7 @@ fun applyControlStyle(
 }
 
 fun Long.parseDateString() = Date(this).toLocaleDateString()
+
+fun parseSwitchText(posts: List<String>): String {
+    return if (posts.size == 1) "1 Post Selected" else "${posts.size} Posts Selected"
+}
