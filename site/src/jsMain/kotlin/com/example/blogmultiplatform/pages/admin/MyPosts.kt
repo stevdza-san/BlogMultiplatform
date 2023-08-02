@@ -17,11 +17,13 @@ import com.example.blogmultiplatform.models.Theme
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
 import com.example.blogmultiplatform.util.Constants.POSTS_PER_PAGE
 import com.example.blogmultiplatform.util.Constants.SIDE_PANEL_WIDTH
+import com.example.blogmultiplatform.util.deleteSelectedPosts
 import com.example.blogmultiplatform.util.fetchMyPosts
 import com.example.blogmultiplatform.util.isUserLoggedIn
 import com.example.blogmultiplatform.util.noBorder
 import com.example.blogmultiplatform.util.parseSwitchText
 import com.varabyte.kobweb.compose.css.FontWeight
+import com.varabyte.kobweb.compose.css.Visibility
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -41,6 +43,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.height
 import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.onClick
 import com.varabyte.kobweb.compose.ui.modifiers.padding
+import com.varabyte.kobweb.compose.ui.modifiers.visibility
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.silk.components.forms.Switch
@@ -152,8 +155,22 @@ fun MyPostsScreen() {
                         .fontFamily(FONT_FAMILY)
                         .fontSize(14.px)
                         .fontWeight(FontWeight.Medium)
+                        .visibility(if (selectedPosts.isNotEmpty()) Visibility.Visible else Visibility.Hidden)
                         .onClick {
-
+                            scope.launch {
+                                val result = deleteSelectedPosts(ids = selectedPosts)
+                                if (result) {
+                                    selectable = false
+                                    switchText = "Select"
+                                    postsToSkip -= selectedPosts.size
+                                    selectedPosts.forEach { deletedPostId ->
+                                        myPosts.removeAll {
+                                            it.id == deletedPostId
+                                        }
+                                    }
+                                    selectedPosts.clear()
+                                }
+                            }
                         }
                         .toAttrs()
                 ) {

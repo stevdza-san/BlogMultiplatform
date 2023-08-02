@@ -9,10 +9,12 @@ import com.varabyte.kobweb.api.data.add
 import com.varabyte.kobweb.api.init.InitApi
 import com.varabyte.kobweb.api.init.InitApiContext
 import kotlinx.coroutines.reactive.awaitFirst
+import kotlinx.coroutines.reactive.awaitLast
 import org.litote.kmongo.and
 import org.litote.kmongo.coroutine.toList
 import org.litote.kmongo.descending
 import org.litote.kmongo.eq
+import org.litote.kmongo.`in`
 import org.litote.kmongo.reactivestreams.KMongo
 import org.litote.kmongo.reactivestreams.getCollection
 
@@ -43,6 +45,13 @@ class MongoDB(private val context: InitApiContext) : MongoRepository {
             .skip(skip)
             .limit(POSTS_PER_PAGE)
             .toList()
+    }
+
+    override suspend fun deleteSelectedPosts(ids: List<String>): Boolean {
+        return postCollection
+            .deleteMany(Post::id `in` ids)
+            .awaitLast()
+            .wasAcknowledged()
     }
 
     override suspend fun checkUserExistence(user: User): User? {
