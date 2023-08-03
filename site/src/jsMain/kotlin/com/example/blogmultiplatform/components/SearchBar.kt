@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.example.blogmultiplatform.models.Theme
+import com.example.blogmultiplatform.util.Id
 import com.example.blogmultiplatform.util.noBorder
 import com.varabyte.kobweb.compose.css.CSSTransition
 import com.varabyte.kobweb.compose.foundation.layout.Row
@@ -18,6 +19,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.borderRadius
 import com.varabyte.kobweb.compose.ui.modifiers.color
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxWidth
 import com.varabyte.kobweb.compose.ui.modifiers.height
+import com.varabyte.kobweb.compose.ui.modifiers.id
 import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.onFocusIn
 import com.varabyte.kobweb.compose.ui.modifiers.onFocusOut
@@ -62,6 +64,7 @@ fun SearchBar(onEnterClick: () -> Unit) {
         Input(
             type = InputType.Text,
             attrs = Modifier
+                .id(Id.adminSearchBar)
                 .fillMaxWidth()
                 .color(Colors.Black)
                 .backgroundColor(Colors.Transparent)

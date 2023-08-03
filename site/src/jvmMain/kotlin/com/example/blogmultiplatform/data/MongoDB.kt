@@ -17,6 +17,7 @@ import org.litote.kmongo.eq
 import org.litote.kmongo.`in`
 import org.litote.kmongo.reactivestreams.KMongo
 import org.litote.kmongo.reactivestreams.getCollection
+import org.litote.kmongo.regex
 
 @InitApi
 fun initMongoDB(ctx: InitApiContext) {
@@ -52,6 +53,17 @@ class MongoDB(private val context: InitApiContext) : MongoRepository {
             .deleteMany(Post::id `in` ids)
             .awaitLast()
             .wasAcknowledged()
+    }
+
+    override suspend fun searchPostsByTittle(query: String, skip: Int): List<PostWithoutDetails> {
+        val regexQuery = query.toRegex(RegexOption.IGNORE_CASE)
+        return postCollection
+            .withDocumentClass(PostWithoutDetails::class.java)
+            .find(PostWithoutDetails::title regex regexQuery)
+            .sort(descending(PostWithoutDetails::date))
+            .skip(skip)
+            .limit(POSTS_PER_PAGE)
+            .toList()
     }
 
     override suspend fun checkUserExistence(user: User): User? {
