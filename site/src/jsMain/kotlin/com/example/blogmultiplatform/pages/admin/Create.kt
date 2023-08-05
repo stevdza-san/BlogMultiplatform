@@ -1,6 +1,7 @@
 package com.example.blogmultiplatform.pages.admin
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -9,6 +10,7 @@ import androidx.compose.runtime.setValue
 import com.example.blogmultiplatform.components.AdminPageLayout
 import com.example.blogmultiplatform.components.ControlPopup
 import com.example.blogmultiplatform.components.MessagePopup
+import com.example.blogmultiplatform.models.ApiResponse
 import com.example.blogmultiplatform.models.Category
 import com.example.blogmultiplatform.models.ControlStyle
 import com.example.blogmultiplatform.models.EditorControl
@@ -17,11 +19,13 @@ import com.example.blogmultiplatform.models.Theme
 import com.example.blogmultiplatform.navigation.Screen
 import com.example.blogmultiplatform.styles.EditorKeyStyle
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
+import com.example.blogmultiplatform.util.Constants.POST_ID_PARAM
 import com.example.blogmultiplatform.util.Constants.SIDE_PANEL_WIDTH
 import com.example.blogmultiplatform.util.Id
 import com.example.blogmultiplatform.util.addPost
 import com.example.blogmultiplatform.util.applyControlStyle
 import com.example.blogmultiplatform.util.applyStyle
+import com.example.blogmultiplatform.util.fetchSelectedPost
 import com.example.blogmultiplatform.util.getEditor
 import com.example.blogmultiplatform.util.getSelectedText
 import com.example.blogmultiplatform.util.isUserLoggedIn
@@ -128,6 +132,20 @@ fun CreateScreen() {
     val context = rememberPageContext()
     val breakpoint = rememberBreakpoint()
     var uiState by remember { mutableStateOf(CreatePageUiState()) }
+
+    val hasPostIdParam = remember(key1 = context.route) {
+        context.route.params.containsKey(POST_ID_PARAM)
+    }
+
+    LaunchedEffect(hasPostIdParam) {
+        if(hasPostIdParam) {
+            val postId = context.route.params.getValue(POST_ID_PARAM)
+            val response = fetchSelectedPost(id = postId)
+            if(response is ApiResponse.Success) {
+
+            }
+        }
+    }
 
     AdminPageLayout {
         Box(

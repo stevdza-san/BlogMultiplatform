@@ -66,6 +66,10 @@ class MongoDB(private val context: InitApiContext) : MongoRepository {
             .toList()
     }
 
+    override suspend fun readSelectedPost(id: String): Post {
+        return postCollection.find(Post::id eq id).toList().first()
+    }
+
     override suspend fun checkUserExistence(user: User): User? {
         return try {
             userCollection
