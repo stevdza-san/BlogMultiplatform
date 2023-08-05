@@ -69,14 +69,14 @@ suspend fun searchPostsByTitle(context: ApiContext) {
     try {
         val query = context.req.params["query"] ?: ""
         val skip = context.req.params["skip"]?.toInt() ?: 0
-        val request = context.data.getValue<MongoDB>().searchPostsByTittle(
+        val posts = context.data.getValue<MongoDB>().searchPostsByTittle(
             query = query,
             skip = skip
         )
         context.res.setBodyText(
             Json.encodeToString(
                 ApiListResponse.Success(
-                    data = request
+                    data = posts
                 )
             )
         )
