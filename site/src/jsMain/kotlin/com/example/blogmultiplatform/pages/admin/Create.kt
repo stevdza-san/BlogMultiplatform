@@ -12,6 +12,7 @@ import com.example.blogmultiplatform.components.ControlPopup
 import com.example.blogmultiplatform.components.MessagePopup
 import com.example.blogmultiplatform.models.ApiResponse
 import com.example.blogmultiplatform.models.Category
+import com.example.blogmultiplatform.models.Constants.POST_ID_PARAM
 import com.example.blogmultiplatform.models.ControlStyle
 import com.example.blogmultiplatform.models.EditorControl
 import com.example.blogmultiplatform.models.Post
@@ -19,7 +20,6 @@ import com.example.blogmultiplatform.models.Theme
 import com.example.blogmultiplatform.navigation.Screen
 import com.example.blogmultiplatform.styles.EditorKeyStyle
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
-import com.example.blogmultiplatform.util.Constants.POST_ID_PARAM
 import com.example.blogmultiplatform.util.Constants.SIDE_PANEL_WIDTH
 import com.example.blogmultiplatform.util.Id
 import com.example.blogmultiplatform.util.addPost
@@ -139,7 +139,7 @@ fun CreateScreen() {
 
     LaunchedEffect(hasPostIdParam) {
         if(hasPostIdParam) {
-            val postId = context.route.params.getValue(POST_ID_PARAM)
+            val postId = context.route.params[POST_ID_PARAM] ?: ""
             val response = fetchSelectedPost(id = postId)
             if(response is ApiResponse.Success) {
 

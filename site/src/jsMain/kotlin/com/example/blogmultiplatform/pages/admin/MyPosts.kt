@@ -12,12 +12,12 @@ import com.example.blogmultiplatform.components.AdminPageLayout
 import com.example.blogmultiplatform.components.Posts
 import com.example.blogmultiplatform.components.SearchBar
 import com.example.blogmultiplatform.models.ApiListResponse
+import com.example.blogmultiplatform.models.Constants.POSTS_PER_PAGE
+import com.example.blogmultiplatform.models.Constants.QUERY_PARAM
 import com.example.blogmultiplatform.models.PostWithoutDetails
 import com.example.blogmultiplatform.models.Theme
 import com.example.blogmultiplatform.navigation.Screen
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
-import com.example.blogmultiplatform.util.Constants.POSTS_PER_PAGE
-import com.example.blogmultiplatform.util.Constants.QUERY_PARAM
 import com.example.blogmultiplatform.util.Constants.SIDE_PANEL_WIDTH
 import com.example.blogmultiplatform.util.Id
 import com.example.blogmultiplatform.util.deleteSelectedPosts
@@ -89,13 +89,7 @@ fun MyPostsScreen() {
     var switchText by remember { mutableStateOf("Select") }
 
     val hasParams = remember(key1 = context.route) { context.route.params.containsKey(QUERY_PARAM) }
-    val query = remember(key1 = context.route) {
-        try {
-            context.route.params.getValue(QUERY_PARAM)
-        } catch (e: Exception) {
-            ""
-        }
-    }
+    val query = remember(key1 = context.route) { context.route.params[QUERY_PARAM] ?: "" }
 
     LaunchedEffect(context.route) {
         postsToSkip = 0
