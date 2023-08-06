@@ -30,6 +30,7 @@ import com.example.blogmultiplatform.util.getEditor
 import com.example.blogmultiplatform.util.getSelectedText
 import com.example.blogmultiplatform.util.isUserLoggedIn
 import com.example.blogmultiplatform.util.noBorder
+import com.example.blogmultiplatform.util.updatePost
 import com.varabyte.kobweb.compose.css.Cursor
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.Overflow
@@ -364,22 +365,41 @@ fun CreateScreen() {
                             uiState.content.isNotEmpty()
                         ) {
                             scope.launch {
-                                val result = addPost(
-                                    Post(
-                                        author = localStorage["username"].toString(),
-                                        title = uiState.title,
-                                        subtitle = uiState.subtitle,
-                                        date = Date.now().toLong(),
-                                        thumbnail = uiState.thumbnail,
-                                        content = uiState.content,
-                                        category = uiState.category,
-                                        popular = uiState.popular,
-                                        main = uiState.main,
-                                        sponsored = uiState.sponsored
+                                if (hasPostIdParam) {
+                                    val result = updatePost(
+                                        Post(
+                                            id = uiState.id,
+                                            title = uiState.title,
+                                            subtitle = uiState.subtitle,
+                                            thumbnail = uiState.thumbnail,
+                                            content = uiState.content,
+                                            category = uiState.category,
+                                            popular = uiState.popular,
+                                            main = uiState.main,
+                                            sponsored = uiState.sponsored
+                                        )
                                     )
-                                )
-                                if (result) {
-                                    context.router.navigateTo(Screen.AdminSuccess.route)
+                                    if (result) {
+                                        context.router.navigateTo(Screen.AdminSuccess.postUpdated())
+                                    }
+                                } else {
+                                    val result = addPost(
+                                        Post(
+                                            author = localStorage["username"].toString(),
+                                            title = uiState.title,
+                                            subtitle = uiState.subtitle,
+                                            date = Date.now().toLong(),
+                                            thumbnail = uiState.thumbnail,
+                                            content = uiState.content,
+                                            category = uiState.category,
+                                            popular = uiState.popular,
+                                            main = uiState.main,
+                                            sponsored = uiState.sponsored
+                                        )
+                                    )
+                                    if (result) {
+                                        context.router.navigateTo(Screen.AdminSuccess.route)
+                                    }
                                 }
                             }
                         } else {

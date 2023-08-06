@@ -2,6 +2,7 @@ package com.example.blogmultiplatform.pages.admin
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import com.example.blogmultiplatform.models.Constants.UPDATED_PARAM
 import com.example.blogmultiplatform.models.Theme
 import com.example.blogmultiplatform.navigation.Screen
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
@@ -26,6 +27,7 @@ import org.jetbrains.compose.web.css.px
 @Composable
 fun SuccessPage() {
     val context = rememberPageContext()
+    val postUpdated = context.route.params.containsKey(UPDATED_PARAM)
     LaunchedEffect(Unit) {
         delay(5000)
         context.router.navigateTo(Screen.AdminCreate.route)
@@ -45,7 +47,7 @@ fun SuccessPage() {
             modifier = Modifier
                 .fontFamily(FONT_FAMILY)
                 .fontSize(24.px),
-            text = "Post Successfully Created!"
+            text = if(postUpdated) "Post Successfully Updated!" else "Post Successfully Created!"
         )
         SpanText(
             modifier = Modifier

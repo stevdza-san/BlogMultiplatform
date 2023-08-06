@@ -33,6 +33,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.fillMaxWidth
 import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
 import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
+import com.varabyte.kobweb.compose.ui.modifiers.height
 import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.objectFit
 import com.varabyte.kobweb.compose.ui.modifiers.onClick
@@ -95,6 +96,7 @@ fun PostPreview(
         Image(
             modifier = Modifier
                 .margin(bottom = 16.px)
+                .height(320.px)
                 .fillMaxWidth()
                 .objectFit(ObjectFit.Cover),
             src = post.thumbnail,

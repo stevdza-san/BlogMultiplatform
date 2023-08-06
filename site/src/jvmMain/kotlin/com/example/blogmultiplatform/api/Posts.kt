@@ -24,7 +24,25 @@ suspend fun addPost(context: ApiContext) {
     try {
         val post = context.req.getBody<Post>()
         val newPost = post?.copy(id = ObjectIdGenerator.newObjectId<String>().id.toHexString())
-        context.res.setBody(newPost?.let { context.data.getValue<MongoDB>().addPost(it) })
+        context.res.setBody(
+            newPost?.let {
+                context.data.getValue<MongoDB>().addPost(it)
+            }
+        )
+    } catch (e: Exception) {
+        context.res.setBody(e.message)
+    }
+}
+
+@Api(routeOverride = "updatepost")
+suspend fun updatePost(context: ApiContext) {
+    try {
+        val updatedPost = context.req.getBody<Post>()
+        context.res.setBody(
+            updatedPost?.let {
+                context.data.getValue<MongoDB>().updatePost(it)
+            }
+        )
     } catch (e: Exception) {
         context.res.setBody(e.message)
     }
