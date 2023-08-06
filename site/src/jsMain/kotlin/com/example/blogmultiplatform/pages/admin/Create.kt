@@ -109,6 +109,7 @@ data class CreatePageUiState(
     var thumbnailInputDisabled: Boolean = true,
     var content: String = "",
     var category: Category = Category.Programming,
+    var buttonText: String = "Create",
     var popular: Boolean = false,
     var main: Boolean = false,
     var sponsored: Boolean = false,
@@ -116,7 +117,24 @@ data class CreatePageUiState(
     var messagePopup: Boolean = false,
     var linkPopup: Boolean = false,
     var imagePopup: Boolean = false
-)
+) {
+    fun reset() = this.copy(
+        id = "",
+        title = "",
+        subtitle = "",
+        thumbnail = "",
+        content = "",
+        category = Category.Programming,
+        buttonText = "Create",
+        main = false,
+        popular = false,
+        sponsored = false,
+        editorVisibility = true,
+        messagePopup = false,
+        linkPopup = false,
+        imagePopup = false
+    )
+}
 
 @Page
 @Composable
@@ -138,12 +156,28 @@ fun CreateScreen() {
     }
 
     LaunchedEffect(hasPostIdParam) {
-        if(hasPostIdParam) {
+        if (hasPostIdParam) {
             val postId = context.route.params[POST_ID_PARAM] ?: ""
             val response = fetchSelectedPost(id = postId)
-            if(response is ApiResponse.Success) {
-
+            if (response is ApiResponse.Success) {
+                (document.getElementById(Id.editor) as HTMLTextAreaElement).value =
+                    response.data.content
+                uiState = uiState.copy(
+                    id = response.data.id,
+                    title = response.data.title,
+                    subtitle = response.data.subtitle,
+                    content = response.data.content,
+                    category = response.data.category,
+                    thumbnail = response.data.thumbnail,
+                    buttonText = "Update",
+                    main = response.data.main,
+                    popular = response.data.popular,
+                    sponsored = response.data.sponsored
+                )
             }
+        } else {
+            (document.getElementById(Id.editor) as HTMLTextAreaElement).value = ""
+            uiState = uiState.reset()
         }
     }
 
@@ -242,6 +276,7 @@ fun CreateScreen() {
                         .fontSize(16.px)
                         .toAttrs {
                             attr("placeholder", "Title")
+                            attr("value", uiState.title)
                         }
                 )
                 Input(
@@ -258,6 +293,7 @@ fun CreateScreen() {
                         .fontSize(16.px)
                         .toAttrs {
                             attr("placeholder", "Subtitle")
+                            attr("value", uiState.subtitle)
                         }
                 )
                 CategoryDropdown(
@@ -309,6 +345,7 @@ fun CreateScreen() {
                 )
                 Editor(editorVisibility = uiState.editorVisibility)
                 CreateButton(
+                    text = uiState.buttonText,
                     onClick = {
                         uiState =
                             uiState.copy(title = (document.getElementById(Id.titleInput) as HTMLInputElement).value)
@@ -629,7 +666,7 @@ fun Editor(editorVisibility: Boolean) {
                     else Visibility.Hidden
                 )
                 .onKeyDown {
-                    if(it.code == "Enter" && it.shiftKey) {
+                    if (it.code == "Enter" && it.shiftKey) {
                         applyStyle(
                             controlStyle = ControlStyle.Break(
                                 selectedText = getSelectedText()
@@ -666,7 +703,10 @@ fun Editor(editorVisibility: Boolean) {
 }
 
 @Composable
-fun CreateButton(onClick: () -> Unit) {
+fun CreateButton(
+    text: String,
+    onClick: () -> Unit
+) {
     Button(
         attrs = Modifier
             .onClick { onClick() }
@@ -681,6 +721,6 @@ fun CreateButton(onClick: () -> Unit) {
             .fontSize(16.px)
             .toAttrs()
     ) {
-        SpanText(text = "Create")
+        SpanText(text = text)
     }
 }
