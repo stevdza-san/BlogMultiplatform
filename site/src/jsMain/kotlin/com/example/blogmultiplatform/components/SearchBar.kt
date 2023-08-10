@@ -27,6 +27,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.onFocusOut
 import com.varabyte.kobweb.compose.ui.modifiers.onKeyDown
 import com.varabyte.kobweb.compose.ui.modifiers.padding
 import com.varabyte.kobweb.compose.ui.modifiers.transition
+import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.icons.fa.FaMagnifyingGlass
 import com.varabyte.kobweb.silk.components.icons.fa.IconSize
@@ -39,21 +40,30 @@ import org.jetbrains.compose.web.dom.Input
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
+    fullWidth: Boolean = true,
+    darkTheme: Boolean = false,
     onEnterClick: () -> Unit
 ) {
     var focused by remember { mutableStateOf(false) }
 
     Row(
         modifier = modifier
-            .fillMaxWidth()
+            .thenIf(
+                condition = fullWidth,
+                other = Modifier.fillMaxWidth()
+            )
             .padding(left = 20.px)
             .height(54.px)
-            .backgroundColor(Theme.LightGray.rgb)
+            .backgroundColor(if (darkTheme) Theme.Tertiary.rgb else Theme.LightGray.rgb)
             .borderRadius(r = 100.px)
             .border(
                 width = 2.px,
                 style = LineStyle.Solid,
-                color = if (focused) Theme.Primary.rgb else Theme.LightGray.rgb
+                color = if (focused && !darkTheme) Theme.Primary.rgb
+                else if (focused && darkTheme) Theme.Primary.rgb
+                else if (!focused && !darkTheme) Theme.LightGray.rgb
+                else if (!focused && darkTheme) Theme.Secondary.rgb
+                else Theme.LightGray.rgb
             )
             .transition(CSSTransition(property = "border", duration = 200.ms)),
         verticalAlignment = Alignment.CenterVertically
@@ -61,7 +71,7 @@ fun SearchBar(
         FaMagnifyingGlass(
             modifier = Modifier
                 .margin(right = 14.px)
-                .color(if(focused) Theme.Primary.rgb else Theme.DarkGray.rgb)
+                .color(if (focused) Theme.Primary.rgb else Theme.DarkGray.rgb)
                 .transition(CSSTransition(property = "color", duration = 200.ms)),
             size = IconSize.SM
         )
@@ -70,13 +80,13 @@ fun SearchBar(
             attrs = Modifier
                 .id(Id.adminSearchBar)
                 .fillMaxSize()
-                .color(Colors.Black)
+                .color(if (darkTheme) Colors.White else Colors.Black)
                 .backgroundColor(Colors.Transparent)
                 .noBorder()
                 .onFocusIn { focused = true }
                 .onFocusOut { focused = false }
                 .onKeyDown {
-                    if(it.key == "Enter") {
+                    if (it.key == "Enter") {
                         onEnterClick()
                     }
                 }
