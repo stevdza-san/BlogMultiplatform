@@ -5,17 +5,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.example.blogmultiplatform.components.CategoryNavigationItems
 import com.example.blogmultiplatform.components.SearchBar
-import com.example.blogmultiplatform.models.Category
 import com.example.blogmultiplatform.models.Theme
-import com.example.blogmultiplatform.styles.CategoryItemStyle
-import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
 import com.example.blogmultiplatform.util.Constants.HEADER_HEIGHT
 import com.example.blogmultiplatform.util.Constants.PAGE_WIDTH
 import com.example.blogmultiplatform.util.Res
 import com.varabyte.kobweb.compose.css.Cursor
-import com.varabyte.kobweb.compose.css.FontWeight
-import com.varabyte.kobweb.compose.css.TextDecorationLine
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.foundation.layout.Spacer
@@ -26,27 +22,24 @@ import com.varabyte.kobweb.compose.ui.modifiers.backgroundColor
 import com.varabyte.kobweb.compose.ui.modifiers.color
 import com.varabyte.kobweb.compose.ui.modifiers.cursor
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxWidth
-import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
-import com.varabyte.kobweb.compose.ui.modifiers.fontSize
-import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
 import com.varabyte.kobweb.compose.ui.modifiers.height
 import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.maxWidth
 import com.varabyte.kobweb.compose.ui.modifiers.onClick
-import com.varabyte.kobweb.compose.ui.modifiers.textDecorationLine
 import com.varabyte.kobweb.compose.ui.modifiers.width
 import com.varabyte.kobweb.silk.components.graphics.Image
 import com.varabyte.kobweb.silk.components.icons.fa.FaBars
 import com.varabyte.kobweb.silk.components.icons.fa.FaXmark
 import com.varabyte.kobweb.silk.components.icons.fa.IconSize
-import com.varabyte.kobweb.silk.components.navigation.Link
 import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
-import com.varabyte.kobweb.silk.components.style.toModifier
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 
 @Composable
-fun HeaderSection(breakpoint: Breakpoint) {
+fun HeaderSection(
+    breakpoint: Breakpoint,
+    onMenuOpen: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -60,13 +53,19 @@ fun HeaderSection(breakpoint: Breakpoint) {
                 .maxWidth(PAGE_WIDTH.px),
             contentAlignment = Alignment.TopCenter
         ) {
-            Header(breakpoint = breakpoint)
+            Header(
+                breakpoint = breakpoint,
+                onMenuOpen = onMenuOpen
+            )
         }
     }
 }
 
 @Composable
-fun Header(breakpoint: Breakpoint) {
+fun Header(
+    breakpoint: Breakpoint,
+    onMenuOpen: () -> Unit
+) {
     var fullSearchBarOpened by remember { mutableStateOf(false) }
     Row(
         modifier = Modifier
@@ -91,7 +90,7 @@ fun Header(breakpoint: Breakpoint) {
                         .margin(right = 24.px)
                         .color(Colors.White)
                         .cursor(Cursor.Pointer)
-                        .onClick { },
+                        .onClick { onMenuOpen() },
                     size = IconSize.XL
                 )
             }
@@ -108,19 +107,7 @@ fun Header(breakpoint: Breakpoint) {
             )
         }
         if (breakpoint >= Breakpoint.LG) {
-            Category.values().forEach { category ->
-                Link(
-                    modifier = CategoryItemStyle.toModifier()
-                        .margin(right = 24.px)
-                        .fontFamily(FONT_FAMILY)
-                        .fontSize(16.px)
-                        .fontWeight(FontWeight.Medium)
-                        .textDecorationLine(TextDecorationLine.None)
-                        .onClick { },
-                    path = "",
-                    text = category.name
-                )
-            }
+            CategoryNavigationItems()
         }
         Spacer()
         SearchBar(
