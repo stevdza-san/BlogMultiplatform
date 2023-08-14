@@ -5,6 +5,7 @@ import com.example.blogmultiplatform.models.Post
 import com.example.blogmultiplatform.models.PostWithoutDetails
 import com.example.blogmultiplatform.models.User
 import com.example.blogmultiplatform.util.Constants.DATABASE_NAME
+import com.example.blogmultiplatform.util.Constants.MAIN_POSTS_LIMIT
 import com.varabyte.kobweb.api.data.add
 import com.varabyte.kobweb.api.init.InitApi
 import com.varabyte.kobweb.api.init.InitApiContext
@@ -65,6 +66,15 @@ class MongoDB(private val context: InitApiContext) : MongoRepository {
             .sort(descending(PostWithoutDetails::date))
             .skip(skip)
             .limit(POSTS_PER_PAGE)
+            .toList()
+    }
+
+    override suspend fun readMainPosts(): List<PostWithoutDetails> {
+        return postCollection
+            .withDocumentClass(PostWithoutDetails::class.java)
+            .find(PostWithoutDetails::main eq true)
+            .sort(descending(PostWithoutDetails::date))
+            .limit(MAIN_POSTS_LIMIT)
             .toList()
     }
 
