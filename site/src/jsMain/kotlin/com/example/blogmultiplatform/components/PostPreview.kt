@@ -61,9 +61,10 @@ import org.jetbrains.compose.web.dom.CheckboxInput
 @Composable
 fun PostPreview(
     post: PostWithoutDetails,
-    selectableMode: Boolean,
-    onSelect: (String) -> Unit,
-    onDeselect: (String) -> Unit,
+    selectableMode: Boolean = false,
+    darkTheme: Boolean = false,
+    onSelect: (String) -> Unit = {},
+    onDeselect: (String) -> Unit = {},
 ) {
     val context = rememberPageContext()
     var checked by remember(selectableMode) { mutableStateOf(false) }
@@ -106,7 +107,7 @@ fun PostPreview(
             modifier = Modifier
                 .fontFamily(FONT_FAMILY)
                 .fontSize(12.px)
-                .color(Theme.HalfBlack.rgb),
+                .color(if (darkTheme) Theme.HalfWhite.rgb else Theme.HalfBlack.rgb),
             text = post.date.parseDateString()
         )
         SpanText(
@@ -115,7 +116,7 @@ fun PostPreview(
                 .fontFamily(FONT_FAMILY)
                 .fontSize(20.px)
                 .fontWeight(FontWeight.Bold)
-                .color(Colors.Black)
+                .color(if (darkTheme) Colors.White else Colors.Black)
                 .textOverflow(TextOverflow.Ellipsis)
                 .overflow(Overflow.Hidden)
                 .styleModifier {
@@ -131,7 +132,7 @@ fun PostPreview(
                 .margin(bottom = 8.px)
                 .fontFamily(FONT_FAMILY)
                 .fontSize(16.px)
-                .color(Colors.Black)
+                .color(if (darkTheme) Colors.White else Colors.Black)
                 .textOverflow(TextOverflow.Ellipsis)
                 .overflow(Overflow.Hidden)
                 .styleModifier {
@@ -147,7 +148,7 @@ fun PostPreview(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            CategoryChip(category = post.category)
+            CategoryChip(category = post.category, darkTheme = darkTheme)
             if (selectableMode) {
                 CheckboxInput(
                     checked = checked,

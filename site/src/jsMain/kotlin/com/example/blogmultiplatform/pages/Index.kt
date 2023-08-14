@@ -5,6 +5,7 @@ import com.example.blogmultiplatform.components.CategoryNavigationItems
 import com.example.blogmultiplatform.components.OverflowSidePanel
 import com.example.blogmultiplatform.models.ApiListResponse
 import com.example.blogmultiplatform.sections.HeaderSection
+import com.example.blogmultiplatform.sections.MainSection
 import com.example.blogmultiplatform.util.fetchMainPosts
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -43,5 +44,6 @@ fun HomePage() {
             breakpoint = breakpoint,
             onMenuOpen = { overflowOpened = true }
         )
+        MainSection(breakpoint = breakpoint, posts = mainPosts)
     }
 }
