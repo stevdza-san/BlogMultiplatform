@@ -69,7 +69,7 @@ fun MainPosts(
             )
             Column(
                 modifier = Modifier
-                    .fillMaxWidth(55.percent)
+                    .fillMaxWidth(60.percent)
                     .margin(left = 20.px)
             ) {
                 posts.drop(1).forEach {
@@ -78,7 +78,7 @@ fun MainPosts(
                         darkTheme = true,
                         vertical = false,
                         thumbnailHeight = 200.px,
-                        titleMaxLength = 1
+                        titleMaxLines = 1
                     )
                 }
             }

@@ -68,8 +68,8 @@ fun PostPreview(
     selectableMode: Boolean = false,
     darkTheme: Boolean = false,
     vertical: Boolean = true,
-    thumbnailHeight: CSSSizeValue<CSSUnit.px>? = 320.px,
-    titleMaxLength: Int = 2,
+    thumbnailHeight: CSSSizeValue<CSSUnit.px> = 320.px,
+    titleMaxLines: Int = 2,
     onSelect: (String) -> Unit = {},
     onDeselect: (String) -> Unit = {},
 ) {
@@ -108,7 +108,7 @@ fun PostPreview(
                 darkTheme = darkTheme,
                 vertical = vertical,
                 thumbnailHeight = thumbnailHeight,
-                titleMaxLength = titleMaxLength,
+                titleMaxLines = titleMaxLines,
                 checked = checked
             )
         }
@@ -120,7 +120,7 @@ fun PostPreview(
                 darkTheme = darkTheme,
                 vertical = vertical,
                 thumbnailHeight = thumbnailHeight,
-                titleMaxLength = titleMaxLength,
+                titleMaxLines = titleMaxLines,
                 checked = checked
             )
         }
@@ -133,14 +133,14 @@ fun PostContent(
     selectableMode: Boolean,
     darkTheme: Boolean,
     vertical: Boolean,
-    thumbnailHeight: CSSSizeValue<CSSUnit.px>?,
-    titleMaxLength: Int,
+    thumbnailHeight: CSSSizeValue<CSSUnit.px>,
+    titleMaxLines: Int,
     checked: Boolean
 ) {
     Image(
         modifier = Modifier
             .margin(bottom = 16.px)
-            .height(size = thumbnailHeight ?: 320.px)
+            .height(size = thumbnailHeight)
             .fillMaxWidth()
             .objectFit(ObjectFit.Cover),
         src = post.thumbnail,
@@ -171,8 +171,8 @@ fun PostContent(
                 .overflow(Overflow.Hidden)
                 .styleModifier {
                     property("display", "-webkit-box")
-                    property("-webkit-line-clamp", "$titleMaxLength")
-                    property("line-clamp", "$titleMaxLength")
+                    property("-webkit-line-clamp", "$titleMaxLines")
+                    property("line-clamp", "$titleMaxLines")
                     property("-webkit-box-orient", "vertical")
                 },
             text = post.title
