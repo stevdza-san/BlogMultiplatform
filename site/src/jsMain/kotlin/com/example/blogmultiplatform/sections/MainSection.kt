@@ -27,17 +27,23 @@ fun MainSection(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .maxWidth(PAGE_WIDTH.px)
             .backgroundColor(Theme.Secondary.rgb),
         contentAlignment = Alignment.Center
     ) {
-        when (posts) {
-            is ApiListResponse.Idle -> {}
-            is ApiListResponse.Success -> {
-                MainPosts(breakpoint = breakpoint, posts = posts.data)
-            }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .maxWidth(PAGE_WIDTH.px),
+            contentAlignment = Alignment.Center
+        ) {
+            when (posts) {
+                is ApiListResponse.Idle -> {}
+                is ApiListResponse.Success -> {
+                    MainPosts(breakpoint = breakpoint, posts = posts.data)
+                }
 
-            is ApiListResponse.Error -> {}
+                is ApiListResponse.Error -> {}
+            }
         }
     }
 }
@@ -55,21 +61,46 @@ fun MainPosts(
             )
             .margin(topBottom = 50.px)
     ) {
-        PostPreview(
-            post = posts.first(),
-            darkTheme = true
-        )
-        Column(
-            modifier = Modifier
-                .fillMaxWidth(45.percent)
-                .margin(left = 50.px)
-        ) {
-            posts.drop(1).forEach {
+        if(breakpoint == Breakpoint.XL) {
+            PostPreview(
+                post = posts.first(),
+                darkTheme = true,
+                thumbnailHeight = 640.px
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(55.percent)
+                    .margin(left = 20.px)
+            ) {
+                posts.drop(1).forEach {
+                    PostPreview(
+                        post = it,
+                        darkTheme = true,
+                        vertical = false,
+                        thumbnailHeight = 200.px,
+                        titleMaxLength = 1
+                    )
+                }
+            }
+        } else if(breakpoint >= Breakpoint.LG) {
+            Box(modifier = Modifier.margin(right = 10.px)) {
                 PostPreview(
-                    post = it,
+                    post = posts.first(),
                     darkTheme = true
                 )
             }
+            Box(modifier = Modifier.margin(left = 10.px)) {
+                PostPreview(
+                    post = posts[1],
+                    darkTheme = true
+                )
+            }
+        } else {
+            PostPreview(
+                post = posts.first(),
+                darkTheme = true,
+                thumbnailHeight = 640.px
+            )
         }
     }
 }
