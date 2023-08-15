@@ -69,7 +69,7 @@ fun MainPosts(
             )
             Column(
                 modifier = Modifier
-                    .fillMaxWidth(60.percent)
+                    .fillMaxWidth(80.percent)
                     .margin(left = 20.px)
             ) {
                 posts.drop(1).forEach {

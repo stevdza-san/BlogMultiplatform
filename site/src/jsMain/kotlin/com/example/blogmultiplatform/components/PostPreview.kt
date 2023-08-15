@@ -78,7 +78,7 @@ fun PostPreview(
     if (vertical) {
         Column(
             modifier = modifier
-                .fillMaxWidth(if(darkTheme) 100.percent else 95.percent)
+                .fillMaxWidth(if (darkTheme) 100.percent else 95.percent)
                 .margin(bottom = 24.px)
                 .padding(all = if (selectableMode) 10.px else 0.px)
                 .borderRadius(r = 4.px)
@@ -139,7 +139,7 @@ fun PostContent(
 ) {
     Image(
         modifier = Modifier
-            .margin(bottom = 16.px)
+            .margin(bottom = if (darkTheme) 20.px else 16.px)
             .height(size = thumbnailHeight)
             .fillMaxWidth()
             .objectFit(ObjectFit.Cover),
