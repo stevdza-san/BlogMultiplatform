@@ -7,7 +7,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.example.blogmultiplatform.models.PostWithoutDetails
 import com.example.blogmultiplatform.models.Theme
-import com.example.blogmultiplatform.navigation.Screen
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
 import com.example.blogmultiplatform.util.parseDateString
 import com.varabyte.kobweb.compose.css.CSSTransition
@@ -15,10 +14,8 @@ import com.varabyte.kobweb.compose.css.Cursor
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.ObjectFit
 import com.varabyte.kobweb.compose.css.Overflow
-import com.varabyte.kobweb.compose.css.TextAlign
 import com.varabyte.kobweb.compose.css.TextOverflow
 import com.varabyte.kobweb.compose.css.TransitionProperty
-import com.varabyte.kobweb.compose.css.Visibility
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
@@ -40,18 +37,12 @@ import com.varabyte.kobweb.compose.ui.modifiers.onClick
 import com.varabyte.kobweb.compose.ui.modifiers.overflow
 import com.varabyte.kobweb.compose.ui.modifiers.padding
 import com.varabyte.kobweb.compose.ui.modifiers.size
-import com.varabyte.kobweb.compose.ui.modifiers.textAlign
 import com.varabyte.kobweb.compose.ui.modifiers.textOverflow
 import com.varabyte.kobweb.compose.ui.modifiers.transition
-import com.varabyte.kobweb.compose.ui.modifiers.visibility
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.compose.ui.toAttrs
-import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.graphics.Image
-import com.varabyte.kobweb.silk.components.layout.SimpleGrid
-import com.varabyte.kobweb.silk.components.layout.numColumns
-import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.text.SpanText
 import org.jetbrains.compose.web.css.CSSSizeValue
 import org.jetbrains.compose.web.css.CSSUnit
@@ -72,8 +63,8 @@ fun PostPreview(
     titleMaxLines: Int = 2,
     onSelect: (String) -> Unit = {},
     onDeselect: (String) -> Unit = {},
+    onClick: (String) -> Unit
 ) {
-    val context = rememberPageContext()
     var checked by remember(selectableMode) { mutableStateOf(false) }
     if (vertical) {
         Column(
@@ -96,7 +87,7 @@ fun PostPreview(
                             onDeselect(post.id)
                         }
                     } else {
-                        context.router.navigateTo(Screen.AdminCreate.passPostId(id = post.id))
+                        onClick(post.id)
                     }
                 }
                 .transition(CSSTransition(property = TransitionProperty.All, duration = 200.ms))
@@ -208,51 +199,5 @@ fun PostContent(
                 )
             }
         }
-    }
-}
-
-@Composable
-fun Posts(
-    breakpoint: Breakpoint,
-    posts: List<PostWithoutDetails>,
-    selectableMode: Boolean = false,
-    onSelect: (String) -> Unit,
-    onDeselect: (String) -> Unit,
-    showMoreVisibility: Boolean,
-    onShowMore: () -> Unit
-) {
-    Column(
-        modifier = Modifier.fillMaxWidth(
-            if (breakpoint > Breakpoint.MD) 80.percent
-            else 90.percent
-        ),
-        verticalArrangement = Arrangement.Center
-    ) {
-        SimpleGrid(
-            modifier = Modifier.fillMaxWidth(),
-            numColumns = numColumns(base = 1, sm = 2, md = 3, lg = 4)
-        ) {
-            posts.forEach {
-                PostPreview(
-                    post = it,
-                    selectableMode = selectableMode,
-                    onSelect = onSelect,
-                    onDeselect = onDeselect
-                )
-            }
-        }
-        SpanText(
-            modifier = Modifier
-                .fillMaxWidth()
-                .margin(topBottom = 50.px)
-                .textAlign(TextAlign.Center)
-                .fontFamily(FONT_FAMILY)
-                .fontSize(16.px)
-                .fontWeight(FontWeight.Medium)
-                .cursor(Cursor.Pointer)
-                .visibility(if (showMoreVisibility) Visibility.Visible else Visibility.Hidden)
-                .onClick { onShowMore() },
-            text = "Show more"
-        )
     }
 }
