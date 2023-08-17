@@ -103,6 +103,16 @@ class MongoDB(private val context: InitApiContext) : MongoRepository {
             .toList()
     }
 
+    override suspend fun readPopularPosts(skip: Int): List<PostWithoutDetails> {
+        return postCollection
+            .withDocumentClass(PostWithoutDetails::class.java)
+            .find(PostWithoutDetails::popular eq true)
+            .sort(descending(PostWithoutDetails::date))
+            .skip(skip)
+            .limit(POSTS_PER_PAGE)
+            .toList()
+    }
+
     override suspend fun deleteSelectedPosts(ids: List<String>): Boolean {
         return postCollection
             .deleteMany(Post::id `in` ids)

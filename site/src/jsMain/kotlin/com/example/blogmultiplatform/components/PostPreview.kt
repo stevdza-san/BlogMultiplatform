@@ -71,7 +71,11 @@ fun PostPreview(
     if (vertical) {
         Column(
             modifier = modifier
-                .fillMaxWidth(if (darkTheme) 100.percent else 95.percent)
+                .fillMaxWidth(
+                    if (darkTheme) 100.percent
+                    else if (titleColor == Theme.Sponsored.rgb) 100.percent
+                    else 95.percent
+                )
                 .margin(bottom = 24.px)
                 .padding(all = if (selectableMode) 10.px else 0.px)
                 .borderRadius(r = 4.px)
