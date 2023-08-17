@@ -9,6 +9,7 @@ import com.example.blogmultiplatform.models.PostWithoutDetails
 import com.example.blogmultiplatform.sections.HeaderSection
 import com.example.blogmultiplatform.sections.MainSection
 import com.example.blogmultiplatform.sections.PostsSection
+import com.example.blogmultiplatform.sections.SponsoredPostsSection
 import com.example.blogmultiplatform.util.fetchLatestPosts
 import com.example.blogmultiplatform.util.fetchMainPosts
 import com.example.blogmultiplatform.util.fetchSponsoredPosts
@@ -40,17 +41,21 @@ fun HomePage() {
         )
         fetchLatestPosts(
             skip = latestPostsToSkip,
-            onSuccess = {
-                if (it is ApiListResponse.Success) {
-                    latestPosts.addAll(it.data)
+            onSuccess = { response ->
+                if (response is ApiListResponse.Success) {
+                    latestPosts.addAll(response.data)
                     latestPostsToSkip += POSTS_PER_PAGE
-                    if (it.data.size >= POSTS_PER_PAGE) showMoreLatest = true
+                    if (response.data.size >= POSTS_PER_PAGE) showMoreLatest = true
                 }
             },
             onError = {}
         )
         fetchSponsoredPosts(
-            onSuccess = {},
+            onSuccess = { response ->
+                if (response is ApiListResponse.Success) {
+                    sponsoredPosts.addAll(response.data)
+                }
+            },
             onError = {}
         )
     }
@@ -100,6 +105,11 @@ fun HomePage() {
             onClick = {
 
             }
+        )
+        SponsoredPostsSection(
+            breakpoint = breakpoint,
+            posts = sponsoredPosts,
+            onClick = {}
         )
     }
 }
