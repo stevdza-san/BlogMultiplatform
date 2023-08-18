@@ -6,6 +6,7 @@ import com.example.blogmultiplatform.models.Constants.AUTHOR_PARAM
 import com.example.blogmultiplatform.models.Constants.POST_ID_PARAM
 import com.example.blogmultiplatform.models.Constants.QUERY_PARAM
 import com.example.blogmultiplatform.models.Constants.SKIP_PARAM
+import com.example.blogmultiplatform.models.Newsletter
 import com.example.blogmultiplatform.models.Post
 import com.example.blogmultiplatform.models.RandomJoke
 import com.example.blogmultiplatform.models.User
@@ -140,7 +141,8 @@ suspend fun fetchLatestPosts(
     onError: (Exception) -> Unit
 ) {
     try {
-        val result = window.api.tryGet(apiPath = "readlatestposts?${SKIP_PARAM}=$skip")?.decodeToString()
+        val result =
+            window.api.tryGet(apiPath = "readlatestposts?${SKIP_PARAM}=$skip")?.decodeToString()
         onSuccess(result.parseData())
     } catch (e: Exception) {
         println(e)
@@ -167,7 +169,8 @@ suspend fun fetchPopularPosts(
     onError: (Exception) -> Unit
 ) {
     try {
-        val result = window.api.tryGet(apiPath = "readpopularposts?${SKIP_PARAM}=$skip")?.decodeToString()
+        val result =
+            window.api.tryGet(apiPath = "readpopularposts?${SKIP_PARAM}=$skip")?.decodeToString()
         onSuccess(result.parseData())
     } catch (e: Exception) {
         println(e)
@@ -214,6 +217,13 @@ suspend fun fetchSelectedPost(id: String): ApiResponse {
         println(e)
         ApiResponse.Error(message = e.message.toString())
     }
+}
+
+suspend fun subscribeNewsletter(newsletter: Newsletter): String {
+    return window.api.tryPost(
+        apiPath = "subscribe",
+        body = Json.encodeToString(newsletter).encodeToByteArray()
+    )?.decodeToString().toString()
 }
 
 inline fun <reified T> String?.parseData(): T {
