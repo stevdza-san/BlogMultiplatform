@@ -19,12 +19,12 @@ val NewsletterInputStyle by ComponentStyle {
         Modifier
             .outline(
                 width = 1.px,
-                style = LineStyle.None,
+                style = LineStyle.Solid,
                 color = Colors.Transparent
             )
             .border(
                 width = 1.px,
-                style = LineStyle.None,
+                style = LineStyle.Solid,
                 color = Colors.Transparent
             )
             .transition(CSSTransition(property = TransitionProperty.All, duration = 300.ms))
