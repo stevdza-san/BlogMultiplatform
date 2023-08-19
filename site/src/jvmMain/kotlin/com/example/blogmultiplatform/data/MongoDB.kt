@@ -1,5 +1,6 @@
 package com.example.blogmultiplatform.data
 
+import com.example.blogmultiplatform.models.Category
 import com.example.blogmultiplatform.models.Constants.POSTS_PER_PAGE
 import com.example.blogmultiplatform.models.Newsletter
 import com.example.blogmultiplatform.models.Post
@@ -127,6 +128,19 @@ class MongoDB(private val context: InitApiContext) : MongoRepository {
         return postCollection
             .withDocumentClass(PostWithoutDetails::class.java)
             .find(PostWithoutDetails::title regex regexQuery)
+            .sort(descending(PostWithoutDetails::date))
+            .skip(skip)
+            .limit(POSTS_PER_PAGE)
+            .toList()
+    }
+
+    override suspend fun searchPostsByCategory(
+        category: Category,
+        skip: Int
+    ): List<PostWithoutDetails> {
+        return postCollection
+            .withDocumentClass(PostWithoutDetails::class.java)
+            .find(PostWithoutDetails::category eq category)
             .sort(descending(PostWithoutDetails::date))
             .skip(skip)
             .limit(POSTS_PER_PAGE)

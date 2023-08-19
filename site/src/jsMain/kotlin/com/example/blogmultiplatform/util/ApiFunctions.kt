@@ -2,7 +2,9 @@ package com.example.blogmultiplatform.util
 
 import com.example.blogmultiplatform.models.ApiListResponse
 import com.example.blogmultiplatform.models.ApiResponse
+import com.example.blogmultiplatform.models.Category
 import com.example.blogmultiplatform.models.Constants.AUTHOR_PARAM
+import com.example.blogmultiplatform.models.Constants.CATEGORY_PARAM
 import com.example.blogmultiplatform.models.Constants.POST_ID_PARAM
 import com.example.blogmultiplatform.models.Constants.QUERY_PARAM
 import com.example.blogmultiplatform.models.Constants.SKIP_PARAM
@@ -203,6 +205,24 @@ suspend fun searchPostsByTitle(
         )?.decodeToString()
         onSuccess(result.parseData())
     } catch (e: Exception) {
+        println(e.message)
+        onError(e)
+    }
+}
+
+suspend fun searchPostsByCategory(
+    category: Category,
+    skip: Int,
+    onSuccess: (ApiListResponse) -> Unit,
+    onError: (Exception) -> Unit
+) {
+    try {
+        val result = window.api.tryGet(
+            apiPath = "searchpostsbycategory?${CATEGORY_PARAM}=${category.name}&${SKIP_PARAM}=$skip"
+        )?.decodeToString()
+        onSuccess(result.parseData())
+    } catch (e: Exception) {
+        println(e.message)
         onError(e)
     }
 }

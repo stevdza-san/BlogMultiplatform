@@ -1,5 +1,6 @@
 package com.example.blogmultiplatform.data
 
+import com.example.blogmultiplatform.models.Category
 import com.example.blogmultiplatform.models.Newsletter
 import com.example.blogmultiplatform.models.Post
 import com.example.blogmultiplatform.models.PostWithoutDetails
@@ -15,6 +16,7 @@ interface MongoRepository {
     suspend fun readPopularPosts(skip: Int): List<PostWithoutDetails>
     suspend fun deleteSelectedPosts(ids: List<String>): Boolean
     suspend fun searchPostsByTittle(query: String, skip: Int): List<PostWithoutDetails>
+    suspend fun searchPostsByCategory(category: Category, skip: Int): List<PostWithoutDetails>
     suspend fun readSelectedPost(id: String): Post
     suspend fun checkUserExistence(user: User): User?
     suspend fun checkUserId(id: String): Boolean
