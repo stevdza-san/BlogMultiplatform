@@ -14,12 +14,15 @@ import com.example.blogmultiplatform.models.ApiListResponse
 import com.example.blogmultiplatform.models.Category
 import com.example.blogmultiplatform.models.Constants.CATEGORY_PARAM
 import com.example.blogmultiplatform.models.Constants.POSTS_PER_PAGE
+import com.example.blogmultiplatform.models.Constants.QUERY_PARAM
 import com.example.blogmultiplatform.models.PostWithoutDetails
 import com.example.blogmultiplatform.sections.HeaderSection
 import com.example.blogmultiplatform.sections.PostsSection
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
+import com.example.blogmultiplatform.util.Id
 import com.example.blogmultiplatform.util.Res
 import com.example.blogmultiplatform.util.searchPostsByCategory
+import com.example.blogmultiplatform.util.searchPostsByTitle
 import com.varabyte.kobweb.compose.css.TextAlign
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -34,8 +37,10 @@ import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
+import kotlinx.browser.document
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.web.css.px
+import org.w3c.dom.HTMLInputElement
 
 @Page(routeOverride = "query")
 @Composable
@@ -52,19 +57,41 @@ fun SearchPage() {
     val hasCategoryParam = remember(key1 = context.route) {
         context.route.params.containsKey(CATEGORY_PARAM)
     }
+    val hasQueryParam = remember(key1 = context.route) {
+        context.route.params.containsKey(QUERY_PARAM)
+    }
     val value = remember(key1 = context.route) {
         if (hasCategoryParam) {
             context.route.params.getValue(CATEGORY_PARAM)
+        } else if (hasQueryParam) {
+            context.route.params.getValue(QUERY_PARAM)
         } else {
             ""
         }
     }
 
     LaunchedEffect(key1 = context.route) {
+        (document.getElementById(Id.adminSearchBar) as HTMLInputElement).value = ""
+        showMorePosts = false
         postsToSkip = 0
         if (hasCategoryParam) {
             searchPostsByCategory(
                 category = Category.valueOf(value),
+                skip = postsToSkip,
+                onSuccess = { response ->
+                    if (response is ApiListResponse.Success) {
+                        searchedPosts.clear()
+                        searchedPosts.addAll(response.data)
+                        postsToSkip += POSTS_PER_PAGE
+                        if (response.data.size >= POSTS_PER_PAGE) showMorePosts = true
+                    }
+                },
+                onError = {}
+            )
+        } else if (hasQueryParam) {
+            (document.getElementById(Id.adminSearchBar) as HTMLInputElement).value = value
+            searchPostsByTitle(
+                query = value,
                 skip = postsToSkip,
                 onSuccess = { response ->
                     if (response is ApiListResponse.Success) {
@@ -87,16 +114,21 @@ fun SearchPage() {
         if (overflowOpened) {
             OverflowSidePanel(
                 onMenuClose = { overflowOpened = false },
-                content = { CategoryNavigationItems(vertical = true) }
+                content = {
+                    CategoryNavigationItems(
+                        selectedCategory = if (hasCategoryParam) Category.valueOf(value) else null,
+                        vertical = true
+                    )
+                }
             )
         }
         HeaderSection(
             breakpoint = breakpoint,
-            selectedCategory = Category.valueOf(value),
+            selectedCategory = if (hasCategoryParam) Category.valueOf(value) else null,
             logo = Res.Image.logo,
             onMenuOpen = { overflowOpened = true }
         )
-        if(hasCategoryParam) {
+        if (hasCategoryParam) {
             SpanText(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -113,24 +145,45 @@ fun SearchPage() {
             showMoreVisibility = showMorePosts,
             onShowMore = {
                 scope.launch {
-                    searchPostsByCategory(
-                        category = Category.valueOf(value),
-                        skip = postsToSkip,
-                        onSuccess = { response ->
-                            if (response is ApiListResponse.Success) {
-                                if (response.data.isNotEmpty()) {
-                                    if (response.data.size < POSTS_PER_PAGE) {
+                    if (hasCategoryParam) {
+                        searchPostsByCategory(
+                            category = Category.valueOf(value),
+                            skip = postsToSkip,
+                            onSuccess = { response ->
+                                if (response is ApiListResponse.Success) {
+                                    if (response.data.isNotEmpty()) {
+                                        if (response.data.size < POSTS_PER_PAGE) {
+                                            showMorePosts = false
+                                        }
+                                        searchedPosts.addAll(response.data)
+                                        postsToSkip += POSTS_PER_PAGE
+                                    } else {
                                         showMorePosts = false
                                     }
-                                    searchedPosts.addAll(response.data)
-                                    postsToSkip += POSTS_PER_PAGE
-                                } else {
-                                    showMorePosts = false
                                 }
-                            }
-                        },
-                        onError = {}
-                    )
+                            },
+                            onError = {}
+                        )
+                    } else if (hasQueryParam) {
+                        searchPostsByTitle(
+                            query = value,
+                            skip = postsToSkip,
+                            onSuccess = { response ->
+                                if (response is ApiListResponse.Success) {
+                                    if (response.data.isNotEmpty()) {
+                                        if (response.data.size < POSTS_PER_PAGE) {
+                                            showMorePosts = false
+                                        }
+                                        searchedPosts.addAll(response.data)
+                                        postsToSkip += POSTS_PER_PAGE
+                                    } else {
+                                        showMorePosts = false
+                                    }
+                                }
+                            },
+                            onError = {}
+                        )
+                    }
                 }
             },
             onClick = {
