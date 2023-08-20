@@ -17,7 +17,7 @@ import org.jetbrains.compose.web.css.px
 fun PostsSection(
     breakpoint: Breakpoint,
     posts: List<PostWithoutDetails>,
-    title: String,
+    title: String? = null,
     showMoreVisibility: Boolean,
     onShowMore: () -> Unit,
     onClick: (String) -> Unit

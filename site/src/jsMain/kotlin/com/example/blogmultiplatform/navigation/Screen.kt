@@ -1,5 +1,7 @@
 package com.example.blogmultiplatform.navigation
 
+import com.example.blogmultiplatform.models.Category
+import com.example.blogmultiplatform.models.Constants.CATEGORY_PARAM
 import com.example.blogmultiplatform.models.Constants.POST_ID_PARAM
 import com.example.blogmultiplatform.models.Constants.QUERY_PARAM
 import com.example.blogmultiplatform.models.Constants.UPDATED_PARAM
@@ -17,5 +19,8 @@ sealed class Screen(val route: String) {
 
     object AdminSuccess : Screen(route = "/admin/success") {
         fun postUpdated() = "/admin/success?${UPDATED_PARAM}=true"
+    }
+    object SearchPage: Screen(route = "/search/query") {
+        fun searchByCategory(category: Category) = "/search/query?${CATEGORY_PARAM}=${category.name}"
     }
 }
