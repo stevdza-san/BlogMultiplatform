@@ -22,7 +22,8 @@ import org.jetbrains.compose.web.css.px
 @Composable
 fun MainSection(
     breakpoint: Breakpoint,
-    posts: ApiListResponse
+    posts: ApiListResponse,
+    onClick: (String) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -39,7 +40,11 @@ fun MainSection(
             when (posts) {
                 is ApiListResponse.Idle -> {}
                 is ApiListResponse.Success -> {
-                    MainPosts(breakpoint = breakpoint, posts = posts.data)
+                    MainPosts(
+                        breakpoint = breakpoint,
+                        posts = posts.data,
+                        onClick = onClick
+                    )
                 }
 
                 is ApiListResponse.Error -> {}
@@ -51,7 +56,8 @@ fun MainSection(
 @Composable
 fun MainPosts(
     breakpoint: Breakpoint,
-    posts: List<PostWithoutDetails>
+    posts: List<PostWithoutDetails>,
+    onClick: (String) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -61,42 +67,42 @@ fun MainPosts(
             )
             .margin(topBottom = 50.px)
     ) {
-        if(breakpoint == Breakpoint.XL) {
+        if (breakpoint == Breakpoint.XL) {
             PostPreview(
                 post = posts.first(),
                 darkTheme = true,
                 thumbnailHeight = 640.px,
-                onClick = {}
+                onClick = { onClick(posts.first().id) }
             )
             Column(
                 modifier = Modifier
                     .fillMaxWidth(80.percent)
                     .margin(left = 20.px)
             ) {
-                posts.drop(1).forEach {
+                posts.drop(1).forEach { postWithoutDetails ->
                     PostPreview(
-                        post = it,
+                        post = postWithoutDetails,
                         darkTheme = true,
                         vertical = false,
                         thumbnailHeight = 200.px,
                         titleMaxLines = 1,
-                        onClick = {}
+                        onClick = { onClick(postWithoutDetails.id) }
                     )
                 }
             }
-        } else if(breakpoint >= Breakpoint.LG) {
+        } else if (breakpoint >= Breakpoint.LG) {
             Box(modifier = Modifier.margin(right = 10.px)) {
                 PostPreview(
                     post = posts.first(),
                     darkTheme = true,
-                    onClick = {}
+                    onClick = { onClick(posts.first().id) }
                 )
             }
             Box(modifier = Modifier.margin(left = 10.px)) {
                 PostPreview(
                     post = posts[1],
                     darkTheme = true,
-                    onClick = {}
+                    onClick = { onClick(posts[1].id) }
                 )
             }
         } else {
@@ -104,7 +110,7 @@ fun MainPosts(
                 post = posts.first(),
                 darkTheme = true,
                 thumbnailHeight = 640.px,
-                onClick = {}
+                onClick = { onClick(posts.first().id) }
             )
         }
     }
