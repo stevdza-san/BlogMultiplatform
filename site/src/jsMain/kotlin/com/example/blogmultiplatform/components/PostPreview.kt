@@ -111,9 +111,10 @@ fun PostPreview(
             )
         }
     } else {
-        Row(modifier = modifier
-            .onClick { onClick(post.id) }
-            .cursor(Cursor.Pointer)
+        Row(
+            modifier = modifier
+                .onClick { onClick(post.id) }
+                .cursor(Cursor.Pointer)
         ) {
             PostContent(
                 post = post,
@@ -155,6 +156,7 @@ fun PostContent(
                 condition = !vertical,
                 other = Modifier.margin(left = 20.px)
             )
+            .fillMaxWidth()
     ) {
         SpanText(
             modifier = Modifier
