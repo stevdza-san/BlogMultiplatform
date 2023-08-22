@@ -7,6 +7,7 @@ import com.example.blogmultiplatform.models.ApiListResponse
 import com.example.blogmultiplatform.models.Constants.POSTS_PER_PAGE
 import com.example.blogmultiplatform.models.PostWithoutDetails
 import com.example.blogmultiplatform.navigation.Screen
+import com.example.blogmultiplatform.sections.FooterSection
 import com.example.blogmultiplatform.sections.HeaderSection
 import com.example.blogmultiplatform.sections.MainSection
 import com.example.blogmultiplatform.sections.NewsletterSection
@@ -161,5 +162,6 @@ fun HomePage() {
             onClick = { context.router.navigateTo(Screen.PostPage.getPost(id = it)) }
         )
         NewsletterSection(breakpoint = breakpoint)
+        FooterSection()
     }
 }

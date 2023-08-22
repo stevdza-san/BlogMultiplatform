@@ -15,6 +15,7 @@ import com.example.blogmultiplatform.models.ApiResponse
 import com.example.blogmultiplatform.models.Constants.POST_ID_PARAM
 import com.example.blogmultiplatform.models.Post
 import com.example.blogmultiplatform.models.Theme
+import com.example.blogmultiplatform.sections.FooterSection
 import com.example.blogmultiplatform.sections.HeaderSection
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
 import com.example.blogmultiplatform.util.Id
@@ -38,6 +39,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.height
 import com.varabyte.kobweb.compose.ui.modifiers.id
 import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.maxWidth
+import com.varabyte.kobweb.compose.ui.modifiers.padding
 import com.varabyte.kobweb.compose.ui.modifiers.textOverflow
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.compose.ui.toAttrs
@@ -109,6 +111,7 @@ fun PostPage() {
                 ErrorView(message = (apiResponse as ApiResponse.Error).message)
             }
         }
+        FooterSection()
     }
 }
 
@@ -119,7 +122,8 @@ fun PostContent(post: Post) {
     }
     Column(
         modifier = Modifier
-            .margin(top = 50.px, bottom = 100.px)
+            .margin(top = 50.px, bottom = 200.px)
+            .padding(leftRight = 24.px)
             .fillMaxWidth()
             .maxWidth(800.px),
         horizontalAlignment = Alignment.CenterHorizontally

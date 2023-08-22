@@ -7,6 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.example.blogmultiplatform.models.PostWithoutDetails
 import com.example.blogmultiplatform.models.Theme
+import com.example.blogmultiplatform.styles.PostPreviewStyle
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
 import com.example.blogmultiplatform.util.parseDateString
 import com.varabyte.kobweb.compose.css.CSSTransition
@@ -43,6 +44,7 @@ import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.graphics.Image
+import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import org.jetbrains.compose.web.css.CSSColorValue
 import org.jetbrains.compose.web.css.CSSSizeValue
@@ -70,7 +72,8 @@ fun PostPreview(
     var checked by remember(selectableMode) { mutableStateOf(false) }
     if (vertical) {
         Column(
-            modifier = modifier
+            modifier = PostPreviewStyle.toModifier()
+                .then(modifier)
                 .fillMaxWidth(
                     if (darkTheme) 100.percent
                     else if (titleColor == Theme.Sponsored.rgb) 100.percent
@@ -112,7 +115,8 @@ fun PostPreview(
         }
     } else {
         Row(
-            modifier = modifier
+            modifier = PostPreviewStyle.toModifier()
+                .then(modifier)
                 .onClick { onClick(post.id) }
                 .cursor(Cursor.Pointer)
         ) {
