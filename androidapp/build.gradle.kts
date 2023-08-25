@@ -2,6 +2,8 @@
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.mongodb.realm)
+    alias(libs.plugins.serialization.plugin)
 }
 
 android {
@@ -59,4 +61,10 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+
+    implementation(libs.navigation.compose)
+    implementation(libs.kotlinx.coroutines)
+    implementation(libs.mongodb.sync)
+    implementation(libs.coil.compose)
+    implementation(libs.kotlinx.serialization)
 }
