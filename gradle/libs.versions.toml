@@ -4,6 +4,15 @@ kobweb = "0.13.7"
 kotlin = "1.8.20"
 kmongo = "4.9.0"
 serialization = "1.4.1"
+agp = "8.1.1"
+org-jetbrains-kotlin-android = "1.8.10"
+core-ktx = "1.10.1"
+junit = "4.13.2"
+androidx-test-ext-junit = "1.1.5"
+espresso-core = "3.5.1"
+lifecycle-runtime-ktx = "2.6.1"
+activity-compose = "1.7.2"
+compose-bom = "2023.08.00"
 
 [libraries]
 kobweb-api = { module = "com.varabyte.kobweb:kobweb-api", version.ref = "kobweb" }
@@ -14,6 +23,15 @@ kobweb-silk-icons-mdi = { module = "com.varabyte.kobweb:kobweb-silk-icons-mdi", 
 kobwebx-markdown = { module = "com.varabyte.kobwebx:kobwebx-markdown", version.ref = "kobweb" }
 kmongo-database = { module = "org.litote.kmongo:kmongo-coroutine-serialization", version.ref = "kmongo" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
+lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
+ui = { module = "androidx.compose.ui:ui" }
+ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
+ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+material3 = { module = "androidx.compose.material3:material3" }
 
 [plugins]
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }
@@ -22,3 +40,5 @@ kobweb-library = { id = "com.varabyte.kobweb.library", version.ref = "kobweb" }
 kobwebx-markdown = { id = "com.varabyte.kobwebx.markdown", version.ref = "kobweb" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 serialization-plugin = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+com-android-application = { id = "com.android.application", version.ref = "agp" }
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
