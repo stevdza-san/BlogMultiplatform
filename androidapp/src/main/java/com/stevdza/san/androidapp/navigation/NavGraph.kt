@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.stevdza.san.androidapp.screens.home.HomeScreen
 
 @Composable
 fun SetupNavGraph(navController: NavHostController) {
@@ -12,7 +13,7 @@ fun SetupNavGraph(navController: NavHostController) {
         startDestination = Screen.Home.route
     ) {
         composable(route = Screen.Home.route) {
-
+            HomeScreen()
         }
         composable(route = Screen.Category.route) {
 
