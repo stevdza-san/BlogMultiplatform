@@ -1,6 +1,6 @@
 package com.stevdza.san.androidapp.data
 
-import com.stevdza.san.androidapp.models.PostSync
+import com.stevdza.san.androidapp.models.Post
 import com.stevdza.san.androidapp.util.Constants.APP_ID
 import com.stevdza.san.androidapp.util.RequestState
 import io.realm.kotlin.Realm
@@ -22,10 +22,10 @@ object MongoSync : MongoSyncRepository {
 
     override fun configureTheRealm() {
         if (user != null) {
-            val config = SyncConfiguration.Builder(user, setOf(PostSync::class))
+            val config = SyncConfiguration.Builder(user, setOf(Post::class))
                 .initialSubscriptions {
                     add(
-                        query = it.query(PostSync::class),
+                        query = it.query(Post::class),
                         name = "Blog Posts"
                     )
                 }
@@ -35,10 +35,10 @@ object MongoSync : MongoSyncRepository {
         }
     }
 
-    override fun readAllPosts(): Flow<RequestState<List<PostSync>>> {
+    override fun readAllPosts(): Flow<RequestState<List<Post>>> {
         return if (user != null) {
             try {
-                realm.query(PostSync::class)
+                realm.query(Post::class)
                     .asFlow()
                     .map { result ->
                         RequestState.Success(data = result.list)

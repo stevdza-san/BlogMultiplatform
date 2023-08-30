@@ -21,14 +21,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.blogmultiplatform.models.Category
-import com.stevdza.san.androidapp.models.PostSync
+import com.stevdza.san.androidapp.models.Category
+import com.stevdza.san.androidapp.models.Post
 import com.stevdza.san.androidapp.util.convertLongToDate
 import com.stevdza.san.androidapp.util.decodeThumbnailImage
 
 @Composable
 fun PostCard(
-    post: PostSync,
+    post: Post,
     onPostClick: (String) -> Unit
 ) {
     val context = LocalContext.current

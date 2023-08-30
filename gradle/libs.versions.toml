@@ -1,15 +1,11 @@
 [versions]
 jetbrains-compose = "1.4.1"
-kobweb = "0.13.7"
+kobweb = "0.13.11"
 kotlin = "1.8.20"
 kmongo = "4.9.0"
-serialization = "1.4.1"
+serialization = "1.5.1"
 agp = "8.1.1"
-org-jetbrains-kotlin-android = "1.8.10"
 core-ktx = "1.10.1"
-junit = "4.13.2"
-androidx-test-ext-junit = "1.1.5"
-espresso-core = "3.5.1"
 lifecycle-runtime-ktx = "2.6.1"
 activity-compose = "1.7.2"
 compose-bom = "2023.08.00"
@@ -49,5 +45,5 @@ kobwebx-markdown = { id = "com.varabyte.kobwebx.markdown", version.ref = "kobweb
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 serialization-plugin = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 com-android-application = { id = "com.android.application", version.ref = "agp" }
-org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 mongodb-realm = { id = "io.realm.kotlin", version.ref = "mongodb" }

@@ -48,8 +48,6 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/**"
-            excludes += "/kotlin/**"
-            excludes += "DebugProbesKt.bin"
         }
     }
 }
@@ -69,5 +67,5 @@ dependencies {
     implementation(libs.mongodb.sync)
     implementation(libs.coil.compose)
     implementation(libs.kotlinx.serialization)
-    implementation(project(":site"))
+//    implementation(project(":site"))
 }
