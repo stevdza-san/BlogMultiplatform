@@ -19,7 +19,6 @@ import kotlinx.browser.localStorage
 import kotlinx.browser.window
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
-import kotlinx.serialization.decodeFromString
 import org.w3c.dom.get
 import org.w3c.dom.set
 import kotlin.js.Date
