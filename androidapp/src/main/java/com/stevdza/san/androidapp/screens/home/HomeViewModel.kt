@@ -19,6 +19,9 @@ class HomeViewModel : ViewModel() {
     private val _allPosts: MutableState<RequestState<List<Post>>> =
         mutableStateOf(RequestState.Idle)
     val allPosts: State<RequestState<List<Post>>> = _allPosts
+    private val _searchedPosts: MutableState<RequestState<List<Post>>> =
+        mutableStateOf(RequestState.Idle)
+    val searchedPosts: State<RequestState<List<Post>>> = _searchedPosts
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -33,5 +36,17 @@ class HomeViewModel : ViewModel() {
                 _allPosts.value = it
             }
         }
+    }
+
+    fun searchPostsByTitle(query: String) {
+        viewModelScope.launch {
+            MongoSync.searchPostsByTitle(query = query).collectLatest {
+                _searchedPosts.value = it
+            }
+        }
+    }
+
+    fun resetSearchedPosts() {
+        _searchedPosts.value = RequestState.Idle
     }
 }
