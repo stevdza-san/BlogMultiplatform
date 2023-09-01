@@ -32,6 +32,7 @@ fun SetupNavGraph(navController: NavHostController) {
                 active = active,
                 onActiveChange = { active = it },
                 onQueryChange = { query = it },
+                onCategorySelect = {},
                 onSearchBarChange = { opened ->
                     searchBarOpened = opened
                     if (!opened) {
