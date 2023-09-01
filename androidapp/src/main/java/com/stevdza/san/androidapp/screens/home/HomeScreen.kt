@@ -39,7 +39,8 @@ fun HomeScreen(
     onQueryChange: (String) -> Unit,
     onCategorySelect: (Category) -> Unit,
     onSearchBarChange: (Boolean) -> Unit,
-    onSearch: (String) -> Unit
+    onSearch: (String) -> Unit,
+    onPostClick: (String) -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -116,7 +117,8 @@ fun HomeScreen(
                     ) {
                         PostCardsView(
                             posts = searchedPosts,
-                            topMargin = 12.dp
+                            topMargin = 12.dp,
+                            onPostClick = onPostClick
                         )
                     }
                 }
@@ -125,7 +127,8 @@ fun HomeScreen(
             PostCardsView(
                 posts = posts,
                 topMargin = it.calculateTopPadding(),
-                hideMessage = true
+                hideMessage = true,
+                onPostClick = onPostClick
             )
         }
     }

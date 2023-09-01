@@ -7,8 +7,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import com.stevdza.san.androidapp.models.Category
+import com.stevdza.san.androidapp.screens.category.CategoryScreen
+import com.stevdza.san.androidapp.screens.category.CategoryViewModel
 import com.stevdza.san.androidapp.screens.home.HomeScreen
 import com.stevdza.san.androidapp.screens.home.HomeViewModel
 
@@ -32,7 +37,9 @@ fun SetupNavGraph(navController: NavHostController) {
                 active = active,
                 onActiveChange = { active = it },
                 onQueryChange = { query = it },
-                onCategorySelect = {},
+                onCategorySelect = {
+                    navController.navigate(Screen.Category.passCategory(it))
+                },
                 onSearchBarChange = { opened ->
                     searchBarOpened = opened
                     if (!opened) {
@@ -41,11 +48,24 @@ fun SetupNavGraph(navController: NavHostController) {
                         viewModel.resetSearchedPosts()
                     }
                 },
-                onSearch = viewModel::searchPostsByTitle
+                onSearch = viewModel::searchPostsByTitle,
+                onPostClick = {}
             )
         }
-        composable(route = Screen.Category.route) {
-
+        composable(
+            route = Screen.Category.route,
+            arguments = listOf(navArgument(name = "category") {
+                type = NavType.StringType
+            })
+        ) {
+            val viewModel: CategoryViewModel = viewModel()
+            val selectedCategory = it.arguments?.getString("category") ?: Category.Programming.name
+            CategoryScreen(
+                posts = viewModel.categoryPosts.value,
+                category = Category.valueOf(selectedCategory),
+                onBackPress = { navController.popBackStack() },
+                onPostClick = {}
+            )
         }
         composable(route = Screen.Details.route) {
 
