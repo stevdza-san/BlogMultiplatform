@@ -31,6 +31,7 @@ class HomeViewModel : ViewModel() {
     }
 
     private suspend fun fetchAllPosts() {
+        _allPosts.value = RequestState.Loading
         viewModelScope.launch {
             MongoSync.readAllPosts().collectLatest {
                 _allPosts.value = it
@@ -39,6 +40,7 @@ class HomeViewModel : ViewModel() {
     }
 
     fun searchPostsByTitle(query: String) {
+        _searchedPosts.value = RequestState.Loading
         viewModelScope.launch {
             MongoSync.searchPostsByTitle(query = query).collectLatest {
                 _searchedPosts.value = it

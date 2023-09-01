@@ -1,10 +1,14 @@
 package com.stevdza.san.androidapp.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SuggestionChip
@@ -18,11 +22,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.stevdza.san.androidapp.models.Category
 import com.stevdza.san.androidapp.models.Post
+import com.stevdza.san.androidapp.util.RequestState
 import com.stevdza.san.androidapp.util.convertLongToDate
 import com.stevdza.san.androidapp.util.decodeThumbnailImage
 
@@ -88,6 +94,48 @@ fun PostCard(
                     label = { Text(text = Category.valueOf(post.category).name) }
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun PostCardsView(
+    posts: RequestState<List<Post>>,
+    topMargin: Dp,
+    hideMessage: Boolean = false
+) {
+    when (posts) {
+        is RequestState.Success -> {
+            if(posts.data.isNotEmpty()) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = topMargin)
+                        .padding(horizontal = 24.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(
+                        items = posts.data,
+                        key = { post -> post._id }
+                    ) { post ->
+                        PostCard(post = post, onPostClick = {})
+                    }
+                }
+            } else {
+                EmptyUI()
+            }
+        }
+
+        is RequestState.Error -> {
+            EmptyUI(message = posts.error.message.toString())
+        }
+
+        is RequestState.Idle -> {
+            EmptyUI(hideMessage = hideMessage)
+        }
+
+        is RequestState.Loading -> {
+            EmptyUI(loading = true)
         }
     }
 }

@@ -1,11 +1,6 @@
 package com.stevdza.san.androidapp.screens.home
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
@@ -20,9 +15,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.stevdza.san.androidapp.components.PostCard
+import com.stevdza.san.androidapp.components.PostCardsView
 import com.stevdza.san.androidapp.models.Post
 import com.stevdza.san.androidapp.util.RequestState
 
@@ -76,7 +70,7 @@ fun HomeScreen(
                     onSearch = onSearch,
                     active = active,
                     onActiveChange = onActiveChange,
-                    placeholder = { Text(text = "Search here...")},
+                    placeholder = { Text(text = "Search here...") },
                     leadingIcon = {
                         IconButton(onClick = { onSearchBarChange(false) }) {
                             Icon(
@@ -96,41 +90,18 @@ fun HomeScreen(
                         }
                     }
                 ) {
-                    if (searchedPosts is RequestState.Success) {
-                        LazyColumn(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(top = 12.dp)
-                                .padding(horizontal = 24.dp),
-                            verticalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            items(
-                                items = searchedPosts.data,
-                                key = { post -> post._id }
-                            ) { post ->
-                                PostCard(post = post, onPostClick = {})
-                            }
-                        }
-                    }
+                    PostCardsView(
+                        posts = searchedPosts,
+                        topMargin = 12.dp
+                    )
                 }
             }
         }
     ) {
-        if (posts is RequestState.Success) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = it.calculateTopPadding())
-                    .padding(horizontal = 24.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                items(
-                    items = posts.data,
-                    key = { post -> post._id }
-                ) { post ->
-                    PostCard(post = post, onPostClick = {})
-                }
-            }
-        }
+        PostCardsView(
+            posts = posts,
+            topMargin = it.calculateTopPadding(),
+            hideMessage = true
+        )
     }
 }
