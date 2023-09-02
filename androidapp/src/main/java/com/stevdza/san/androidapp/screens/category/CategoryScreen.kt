@@ -42,7 +42,7 @@ fun CategoryScreen(
         PostCardsView(
             posts = posts,
             topMargin = it.calculateTopPadding(),
-            onPostClick = {}
+            onPostClick = onPostClick
         )
     }
 }
