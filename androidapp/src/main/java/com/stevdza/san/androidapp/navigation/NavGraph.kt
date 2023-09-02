@@ -11,6 +11,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.blogmultiplatform.Constants.SHOW_SECTIONS_PARAM
 import com.stevdza.san.androidapp.models.Category
 import com.stevdza.san.androidapp.screens.category.CategoryScreen
 import com.stevdza.san.androidapp.screens.category.CategoryViewModel
@@ -80,7 +81,7 @@ fun SetupNavGraph(navController: NavHostController) {
         ) {
             val postId = it.arguments?.getString("postId")
             DetailsScreen(
-                url = "http://10.0.2.2:8080/posts/post?postId=$postId",
+                url = "http://10.0.2.2:8080/posts/post?postId=$postId&$SHOW_SECTIONS_PARAM=false",
                 onBackPress = { navController.popBackStack() }
             )
         }
