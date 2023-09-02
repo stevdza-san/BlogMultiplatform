@@ -74,8 +74,7 @@ fun PostPage() {
 
     LaunchedEffect(key1 = context.route) {
         showSections = if (context.route.params.containsKey(SHOW_SECTIONS_PARAM)) {
-            context.route.params.getValue(SHOW_SECTIONS_PARAM).split("=")
-                .last().toBoolean()
+            context.route.params.getValue(SHOW_SECTIONS_PARAM).toBoolean()
         } else true
         if (hasPostIdParam) {
             val postId = context.route.params.getValue(POST_ID_PARAM)
@@ -153,7 +152,7 @@ fun PostContent(
                 .color(Theme.HalfBlack.rgb)
                 .fontFamily(FONT_FAMILY)
                 .fontSize(14.px),
-            text = post.date.parseDateString()
+            text = post.date.toLong().parseDateString()
         )
         SpanText(
             modifier = Modifier

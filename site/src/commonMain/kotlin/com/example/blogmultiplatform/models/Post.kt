@@ -8,7 +8,8 @@ data class Post(
     @SerialName("_id")
     val id: String = "",
     val author: String = "",
-    val date: Long = 0L,
+    val date: Double = 0.0,
+//    val date: Long = 0L,
     val title: String,
     val subtitle: String,
     val thumbnail: String,
@@ -24,7 +25,8 @@ data class PostWithoutDetails(
     @SerialName("_id")
     val id: String = "",
     val author: String,
-    val date: Long,
+    val date: Double,
+//    val date: Long,
     val title: String,
     val subtitle: String,
     val thumbnail: String,
