@@ -4,6 +4,10 @@
 # specified once).
 ARG KOBWEB_APP_ROOT="site"
 
+FROM eclipse-temurin:17 as java
+
+FROM java as export
+
 #-----------------------------------------------------------------------------
 # Create an intermediate stage which builds and exports our site. In the
 # final stage, we'll only extract what we need from this stage, saving a lot
@@ -13,16 +17,22 @@ FROM amazoncorretto:17-alpine-jdk as export
 ENV KOBWEB_CLI_VERSION=0.9.13
 ARG KOBWEB_APP_ROOT
 
+ENV NODE_MAJOR=20
+
 # Copy the project code to an arbitrary subdir so we can install stuff in the
 # Docker container root without worrying about clobbering project files.
 COPY . /project
 
 # Update and install required OS packages to continue
+# Note: Node install instructions from: https://github.com/nodesource/distributions#installation-instructions
 # Note: Playwright is a system for running browsers, and here we use it to
 # install Chromium.
 RUN apt-get update \
-    && apt-get install -y curl gnupg unzip wget \
-    && curl -sL https://deb.nodesource.com/setup_19.x | bash - \
+    && apt-get install -y ca-certificates curl gnupg unzip wget \
+    && mkdir -p /etc/apt/keyrings \
+    && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
+    && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
+    && apt-get update \
     && apt-get install -y nodejs \
     && npm init -y \
     && npx playwright install --with-deps chromium
@@ -47,7 +57,7 @@ RUN kobweb export --notty
 #-----------------------------------------------------------------------------
 # Create the final stage, which contains just enough bits to run the Kobweb
 # server.
-FROM amazoncorretto:17-alpine-jdk as run
+FROM java as run
 
 ARG KOBWEB_APP_ROOT
 
