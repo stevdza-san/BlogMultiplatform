@@ -36,7 +36,7 @@ class MongoDB(private val context: InitApiContext) : MongoRepository {
     // For testing with a localhost.
 //    private val client = KMongo.createClient()
     // For a remote mongo database.
-    private val client = KMongo.createClient("CONNECTION_STRING")
+    private val client = KMongo.createClient(System.getenv("MONGODB_URI"))
     private val database = client.getDatabase(DATABASE_NAME)
     private val userCollection = database.getCollection<User>()
     private val postCollection = database.getCollection<Post>()
