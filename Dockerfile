@@ -47,7 +47,7 @@ RUN kobweb export --notty
 #-----------------------------------------------------------------------------
 # Create the final stage, which contains just enough bits to run the Kobweb
 # server.
-FROM openjdk:11-jre-slim as run
+FROM openjdk:17-jre-slim as run
 
 ARG KOBWEB_APP_ROOT
 
