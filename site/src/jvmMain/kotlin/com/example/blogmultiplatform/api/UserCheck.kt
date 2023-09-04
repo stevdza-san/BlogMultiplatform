@@ -9,7 +9,6 @@ import com.varabyte.kobweb.api.data.getValue
 import com.varabyte.kobweb.api.http.setBodyText
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
-import kotlinx.serialization.decodeFromString
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 
@@ -19,20 +18,29 @@ suspend fun userCheck(context: ApiContext) {
         val userRequest =
             context.req.body?.decodeToString()?.let { Json.decodeFromString<User>(it) }
         val user = userRequest?.let {
+            context.logger.debug("CURRENT_USER")
+            context.logger.debug(hashPassword(it.username))
+            context.logger.debug(hashPassword(it.password))
             context.data.getValue<MongoDB>().checkUserExistence(
                 User(username = it.username, password = hashPassword(it.password))
             )
         }
         if (user != null) {
+            context.logger.debug("CURRENT_USER")
+            context.logger.debug("USER NOT NULL")
             context.res.setBodyText(
                 Json.encodeToString(
                     UserWithoutPassword(id = user.id, username = user.username)
                 )
             )
         } else {
+            context.logger.debug("CURRENT_USER")
+            context.logger.debug("USER NULL")
             context.res.setBodyText(Json.encodeToString(Exception("User doesn't exist.")))
         }
     } catch (e: Exception) {
+        context.logger.debug("CURRENT_USER")
+        context.logger.debug(e.message.toString())
         context.res.setBodyText(Json.encodeToString(Exception(e.message)))
     }
 }

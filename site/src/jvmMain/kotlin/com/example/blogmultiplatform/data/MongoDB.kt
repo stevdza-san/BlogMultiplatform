@@ -165,6 +165,7 @@ class MongoDB(private val context: InitApiContext) : MongoRepository {
                     )
                 ).awaitFirst()
         } catch (e: Exception) {
+            context.logger.error("CURRENT_USER")
             context.logger.error(e.message.toString())
             null
         }

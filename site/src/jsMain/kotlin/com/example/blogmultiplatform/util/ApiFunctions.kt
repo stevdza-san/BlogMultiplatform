@@ -30,6 +30,7 @@ suspend fun checkUserExistence(user: User): UserWithoutPassword? {
             body = Json.encodeToString(user).encodeToByteArray()
         )?.decodeToString().parseData()
     } catch (e: Exception) {
+        println("CURRENT_USER")
         println(e.message)
         null
     }
