@@ -81,6 +81,7 @@ fun MainPosts(
             ) {
                 posts.drop(1).forEach { postWithoutDetails ->
                     PostPreview(
+                        modifier = Modifier.margin(bottom = 20.px),
                         post = postWithoutDetails,
                         darkTheme = true,
                         vertical = false,

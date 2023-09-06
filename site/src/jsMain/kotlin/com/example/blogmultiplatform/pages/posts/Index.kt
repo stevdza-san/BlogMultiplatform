@@ -58,6 +58,8 @@ import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Div
 import org.w3c.dom.HTMLDivElement
 import com.example.blogmultiplatform.Constants.SHOW_SECTIONS_PARAM
+import com.varabyte.kobweb.compose.css.ObjectFit
+import com.varabyte.kobweb.compose.ui.modifiers.objectFit
 
 @Page(routeOverride = "post")
 @Composable
@@ -176,12 +178,13 @@ fun PostContent(
             modifier = Modifier
                 .margin(bottom = 40.px)
                 .fillMaxWidth()
+                .objectFit(ObjectFit.Cover)
                 .height(
                     if (breakpoint <= Breakpoint.SM) 250.px
                     else if (breakpoint <= Breakpoint.MD) 400.px
                     else 600.px
                 ),
-            src = post.thumbnail
+            src = post.thumbnail,
         )
         Div(
             attrs = Modifier
