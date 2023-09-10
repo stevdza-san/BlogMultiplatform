@@ -12,6 +12,7 @@ compose-bom = "2023.08.00"
 navigation = "2.6.0"
 coroutines = "1.6.4"
 mongodb = "1.7.1"
+mongodb-kotlin = "4.10.1"
 coil = "2.3.0"
 
 [libraries]
@@ -35,6 +36,7 @@ material3 = { module = "androidx.compose.material3:material3" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 mongodb-sync = { module = "io.realm.kotlin:library-sync", version.ref = "mongodb" }
+mongodb-kotlin-driver = { module = "org.mongodb:mongodb-driver-kotlin-coroutine", version.ref = "mongodb-kotlin" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 [plugins]

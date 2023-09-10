@@ -100,12 +100,12 @@ fun PostPreview(
                     if (selectableMode) {
                         checked = !checked
                         if (checked) {
-                            onSelect(post.id)
+                            onSelect(post._id)
                         } else {
-                            onDeselect(post.id)
+                            onDeselect(post._id)
                         }
                     } else {
-                        onClick(post.id)
+                        onClick(post._id)
                     }
                 }
                 .transition(CSSTransition(property = TransitionProperty.All, duration = 200.ms))
@@ -135,7 +135,7 @@ fun PostPreview(
                 )
                 .then(modifier)
                 .height(thumbnailHeight)
-                .onClick { onClick(post.id) }
+                .onClick { onClick(post._id) }
                 .cursor(Cursor.Pointer)
         ) {
             PostContent(

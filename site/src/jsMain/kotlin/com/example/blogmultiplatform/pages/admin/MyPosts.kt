@@ -215,7 +215,7 @@ fun MyPostsScreen() {
                                     postsToSkip -= selectedPosts.size
                                     selectedPosts.forEach { deletedPostId ->
                                         myPosts.removeAll {
-                                            it.id == deletedPostId
+                                            it._id == deletedPostId
                                         }
                                     }
                                     selectedPosts.clear()
