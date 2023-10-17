@@ -48,7 +48,6 @@ import com.varabyte.kobweb.compose.ui.modifiers.transition
 import com.varabyte.kobweb.compose.ui.modifiers.translateX
 import com.varabyte.kobweb.compose.ui.modifiers.width
 import com.varabyte.kobweb.compose.ui.modifiers.zIndex
-import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.rememberPageContext
@@ -196,22 +195,16 @@ private fun VectorIcon(
                 attr("fill", "none")
             }
     ) {
-        Path(
-            attrs = Modifier
-                .id(Id.vectorIcon)
-                .thenIf(
-                    condition = selected,
-                    other = Modifier.styleModifier {
-                        property("stroke", Theme.Primary.hex)
-                    }
-                )
-                .toAttrs {
-                    attr("d", pathData)
-                    attr("stroke-width", "2")
-                    attr("stroke-linecap", "round")
-                    attr("stroke-linejoin", "round")
-                }
-        )
+        Path {
+            if (selected) {
+                attr(name = "style", value = "stroke: ${Theme.Primary.hex}")
+            }
+            attr(name = "id", value = Id.vectorIcon)
+            attr(name = "d", value = pathData)
+            attr(name = "stroke-width", value = "2")
+            attr(name = "stroke-linecap", value = "round")
+            attr(name = "stroke-linejoin", value = "round")
+        }
     }
 }
 
@@ -256,7 +249,7 @@ fun OverflowSidePanel(
     LaunchedEffect(key1 = breakpoint) {
         translateX = 0.percent
         opacity = 100.percent
-        if(breakpoint > Breakpoint.MD) {
+        if (breakpoint > Breakpoint.MD) {
             scope.launch {
                 translateX = (-100).percent
                 opacity = 0.percent
