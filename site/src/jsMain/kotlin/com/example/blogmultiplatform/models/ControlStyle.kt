@@ -36,9 +36,9 @@ sealed class ControlStyle(val style: String) {
     data class Image(
         val selectedText: String?,
         val imageUrl: String,
-        val desc: String
+        val alt: String
     ) : ControlStyle(
-        style = "<img src=\"$imageUrl\" alt=\"$desc\" style=\"max-width: 100%\">$selectedText</img>"
+        style = "<img src=\"$imageUrl\" alt=\"$alt\" style=\"max-width: 100%\">$selectedText</img>"
     )
 
     data class Break(val selectedText: String?) : ControlStyle(

@@ -1,7 +1,7 @@
 [versions]
-jetbrains-compose = "1.5.3"
-kobweb = "0.14.1"
-kotlin = "1.9.10"
+jetbrains-compose = "1.5.11"
+kobweb = "0.15.2"
+kotlin = "1.9.21"
 #kmongo = "4.9.0"
 serialization = "1.5.1"
 agp = "8.1.2"

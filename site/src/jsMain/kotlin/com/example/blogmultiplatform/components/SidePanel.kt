@@ -20,8 +20,8 @@ import com.varabyte.kobweb.compose.css.CSSTransition
 import com.varabyte.kobweb.compose.css.Cursor
 import com.varabyte.kobweb.compose.css.Overflow
 import com.varabyte.kobweb.compose.css.ScrollBehavior
-import com.varabyte.kobweb.compose.dom.Path
-import com.varabyte.kobweb.compose.dom.Svg
+import com.varabyte.kobweb.compose.dom.svg.Path
+import com.varabyte.kobweb.compose.dom.svg.Svg
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
@@ -91,7 +91,7 @@ private fun SidePanelInternal() {
         Image(
             modifier = Modifier.margin(bottom = 60.px),
             src = Res.Image.logo,
-            desc = "Logo Image"
+            alt = "Logo Image"
         )
         NavigationItems()
     }
@@ -197,13 +197,13 @@ private fun VectorIcon(
     ) {
         Path {
             if (selected) {
-                attr(name = "style", value = "stroke: ${Theme.Primary.hex}")
+                attr(attr = "style", value = "stroke: ${Theme.Primary.hex}")
             }
-            attr(name = "id", value = Id.vectorIcon)
-            attr(name = "d", value = pathData)
-            attr(name = "stroke-width", value = "2")
-            attr(name = "stroke-linecap", value = "round")
-            attr(name = "stroke-linejoin", value = "round")
+            attr(attr = "id", value = Id.vectorIcon)
+            attr(attr = "d", value = pathData)
+            attr(attr = "stroke-width", value = "2")
+            attr(attr = "stroke-linecap", value = "round")
+            attr(attr = "stroke-linejoin", value = "round")
         }
     }
 }
@@ -229,7 +229,7 @@ private fun CollapsedSidePanel(onMenuClick: () -> Unit) {
         Image(
             modifier = Modifier.width(80.px),
             src = Res.Image.logo,
-            desc = "Logo Image"
+            alt = "Logo Image"
         )
     }
 }
@@ -305,7 +305,7 @@ fun OverflowSidePanel(
                         .onClick { context.router.navigateTo(Screen.HomePage.route) }
                         .cursor(Cursor.Pointer),
                     src = Res.Image.logo,
-                    desc = "Logo Image"
+                    alt = "Logo Image"
                 )
             }
             content()

@@ -102,7 +102,7 @@ fun HomeContent(randomJoke: RandomJoke?) {
                             .size(150.px)
                             .margin(bottom = 50.px),
                         src = Res.Image.laugh,
-                        desc = "Laugh Image"
+                        alt = "Laugh Image"
                     )
                 }
                 if (randomJoke.joke.contains("Q:")) {

@@ -444,7 +444,7 @@ fun CreateScreen() {
                     ControlStyle.Image(
                         selectedText = getSelectedText(),
                         imageUrl = imageUrl,
-                        desc = description
+                        alt = description
                     )
                 )
             }
@@ -661,7 +661,7 @@ fun EditorControlView(
     ) {
         Image(
             src = control.icon,
-            desc = "${control.name} Icon"
+            alt = "${control.name} Icon"
         )
     }
 }

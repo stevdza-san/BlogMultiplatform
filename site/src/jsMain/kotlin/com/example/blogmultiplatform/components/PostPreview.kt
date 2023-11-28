@@ -170,7 +170,7 @@ fun PostContent(
             .fillMaxWidth()
             .objectFit(ObjectFit.Cover),
         src = post.thumbnail,
-        desc = "Post Thumbnail Image"
+        alt = "Post Thumbnail Image"
     )
     Column(
         modifier = Modifier
