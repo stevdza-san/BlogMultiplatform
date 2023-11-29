@@ -41,7 +41,7 @@ fun SuccessPage() {
         Image(
             modifier = Modifier.margin(bottom = 24.px),
             src = Res.Icon.checkmark,
-            desc = "Checkmark Icon"
+            alt = "Checkmark Icon"
         )
         SpanText(
             modifier = Modifier

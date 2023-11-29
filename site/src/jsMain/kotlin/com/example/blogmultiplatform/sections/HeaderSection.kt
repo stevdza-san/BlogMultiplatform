@@ -116,7 +116,7 @@ fun Header(
                     .cursor(Cursor.Pointer)
                     .onClick { context.router.navigateTo(Screen.HomePage.route) },
                 src = logo,
-                desc = "Logo Image"
+                alt = "Logo Image"
             )
         }
         if (breakpoint >= Breakpoint.LG) {
