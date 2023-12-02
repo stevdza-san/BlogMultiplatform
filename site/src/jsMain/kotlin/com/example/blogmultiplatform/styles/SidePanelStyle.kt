@@ -1,6 +1,6 @@
 package com.example.blogmultiplatform.styles
 
-import com.example.blogmultiplatform.models.Theme
+import com.example.shared.JsTheme
 import com.example.blogmultiplatform.util.Id
 import com.varabyte.kobweb.compose.css.CSSTransition
 import com.varabyte.kobweb.compose.css.TransitionProperty
@@ -16,21 +16,21 @@ val NavigationItemStyle by ComponentStyle {
         Modifier
             .transition(CSSTransition(property = TransitionProperty.All, duration = 300.ms))
             .styleModifier {
-                property("stroke", Theme.White.hex)
+                property("stroke", JsTheme.White.hex)
             }
     }
     cssRule(":hover > #${Id.svgParent} > #${Id.vectorIcon}") {
         Modifier
             .styleModifier {
-            property("stroke", Theme.Primary.hex)
+            property("stroke", JsTheme.Primary.hex)
         }
     }
     cssRule(" > #${Id.navigationText}") {
         Modifier
             .transition(CSSTransition(property = TransitionProperty.All, duration = 300.ms))
-            .color(Theme.White.rgb)
+            .color(JsTheme.White.rgb)
     }
     cssRule(":hover > #${Id.navigationText}") {
-        Modifier.color(Theme.Primary.rgb)
+        Modifier.color(JsTheme.Primary.rgb)
     }
 }

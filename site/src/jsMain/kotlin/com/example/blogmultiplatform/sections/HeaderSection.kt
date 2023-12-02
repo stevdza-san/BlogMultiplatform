@@ -7,8 +7,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.example.blogmultiplatform.components.CategoryNavigationItems
 import com.example.blogmultiplatform.components.SearchBar
-import com.example.blogmultiplatform.models.Category
-import com.example.blogmultiplatform.models.Theme
+import com.example.shared.Category
+import com.example.shared.JsTheme
 import com.example.blogmultiplatform.navigation.Screen
 import com.example.blogmultiplatform.util.Constants.HEADER_HEIGHT
 import com.example.blogmultiplatform.util.Constants.PAGE_WIDTH
@@ -51,13 +51,13 @@ fun HeaderSection(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .backgroundColor(Theme.Secondary.rgb),
+            .backgroundColor(JsTheme.Secondary.rgb),
         contentAlignment = Alignment.Center
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .backgroundColor(Theme.Secondary.rgb)
+                .backgroundColor(JsTheme.Secondary.rgb)
                 .maxWidth(PAGE_WIDTH.px),
             contentAlignment = Alignment.TopCenter
         ) {

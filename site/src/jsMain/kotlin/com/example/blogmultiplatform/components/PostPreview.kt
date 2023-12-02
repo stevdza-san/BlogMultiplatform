@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.example.blogmultiplatform.models.PostWithoutDetails
-import com.example.blogmultiplatform.models.Theme
+import com.example.shared.JsTheme
 import com.example.blogmultiplatform.styles.MainPostPreviewStyle
 import com.example.blogmultiplatform.styles.PostPreviewStyle
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
@@ -85,7 +85,7 @@ fun PostPreview(
                 .then(modifier)
                 .fillMaxWidth(
                     if (darkTheme) 100.percent
-                    else if (titleColor == Theme.Sponsored.rgb) 100.percent
+                    else if (titleColor == JsTheme.Sponsored.rgb) 100.percent
                     else 95.percent
                 )
                 .margin(bottom = 24.px)
@@ -94,7 +94,7 @@ fun PostPreview(
                 .border(
                     width = if (selectableMode) 4.px else 0.px,
                     style = if (selectableMode) LineStyle.Solid else LineStyle.None,
-                    color = if (checked) Theme.Primary.rgb else Theme.Gray.rgb
+                    color = if (checked) JsTheme.Primary.rgb else JsTheme.Gray.rgb
                 )
                 .onClick {
                     if (selectableMode) {
@@ -185,7 +185,7 @@ fun PostContent(
             modifier = Modifier
                 .fontFamily(FONT_FAMILY)
                 .fontSize(12.px)
-                .color(if (darkTheme) Theme.HalfWhite.rgb else Theme.HalfBlack.rgb),
+                .color(if (darkTheme) JsTheme.HalfWhite.rgb else JsTheme.HalfBlack.rgb),
             text = post.date.toLong().parseDateString()
         )
         SpanText(

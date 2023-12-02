@@ -17,7 +17,7 @@ import androidx.compose.ui.draw.alpha
 import com.stevdza.san.androidapp.R
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.stevdza.san.androidapp.models.Category
+import com.example.shared.Category
 
 @Composable
 fun NavigationDrawer(
@@ -48,7 +48,7 @@ fun NavigationDrawer(
                             .padding(start = 20.dp, bottom = 12.dp),
                         text = "Categories"
                     )
-                    Category.values().forEach { category ->
+                    Category.entries.forEach { category ->
                         NavigationDrawerItem(
                             label = {
                                 Text(

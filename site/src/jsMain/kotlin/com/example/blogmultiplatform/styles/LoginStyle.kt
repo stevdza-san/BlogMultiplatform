@@ -1,6 +1,6 @@
 package com.example.blogmultiplatform.styles
 
-import com.example.blogmultiplatform.models.Theme
+import com.example.shared.JsTheme
 import com.varabyte.kobweb.compose.css.CSSTransition
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
@@ -26,7 +26,7 @@ val LoginInputStyle by ComponentStyle {
         Modifier.border(
             width = 2.px,
             style = LineStyle.Solid,
-            color = Theme.Primary.rgb
+            color = JsTheme.Primary.rgb
         )
     }
 }

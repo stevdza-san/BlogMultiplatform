@@ -6,7 +6,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import com.example.blogmultiplatform.models.Theme
+import com.example.shared.JsTheme
 import com.example.blogmultiplatform.models.User
 import com.example.blogmultiplatform.models.UserWithoutPassword
 import com.example.blogmultiplatform.navigation.Screen
@@ -73,7 +73,7 @@ fun LoginScreen() {
         Column(
             modifier = Modifier
                 .padding(leftRight = 50.px, top = 80.px, bottom = 24.px)
-                .backgroundColor(Theme.LightGray.rgb),
+                .backgroundColor(JsTheme.LightGray.rgb),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -129,7 +129,7 @@ fun LoginScreen() {
                     .margin(bottom = 24.px)
                     .width(350.px)
                     .height(54.px)
-                    .backgroundColor(Theme.Primary.rgb)
+                    .backgroundColor(JsTheme.Primary.rgb)
                     .color(Colors.White)
                     .borderRadius(r = 4.px)
                     .fontFamily(FONT_FAMILY)

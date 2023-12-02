@@ -6,7 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.example.blogmultiplatform.models.Theme
+import com.example.shared.JsTheme
 import com.example.blogmultiplatform.util.Id
 import com.example.blogmultiplatform.util.noBorder
 import com.varabyte.kobweb.compose.css.CSSTransition
@@ -66,16 +66,16 @@ fun SearchBar(
                 )
                 .padding(left = 20.px)
                 .height(54.px)
-                .backgroundColor(if (darkTheme) Theme.Tertiary.rgb else Theme.LightGray.rgb)
+                .backgroundColor(if (darkTheme) JsTheme.Tertiary.rgb else JsTheme.LightGray.rgb)
                 .borderRadius(r = 100.px)
                 .border(
                     width = 2.px,
                     style = LineStyle.Solid,
-                    color = if (focused && !darkTheme) Theme.Primary.rgb
-                    else if (focused && darkTheme) Theme.Primary.rgb
-                    else if (!focused && !darkTheme) Theme.LightGray.rgb
-                    else if (!focused && darkTheme) Theme.Secondary.rgb
-                    else Theme.LightGray.rgb
+                    color = if (focused && !darkTheme) JsTheme.Primary.rgb
+                    else if (focused && darkTheme) JsTheme.Primary.rgb
+                    else if (!focused && !darkTheme) JsTheme.LightGray.rgb
+                    else if (!focused && darkTheme) JsTheme.Secondary.rgb
+                    else JsTheme.LightGray.rgb
                 )
                 .transition(CSSTransition(property = "border", duration = 200.ms)),
             verticalAlignment = Alignment.CenterVertically
@@ -83,7 +83,7 @@ fun SearchBar(
             FaMagnifyingGlass(
                 modifier = Modifier
                     .margin(right = 14.px)
-                    .color(if (focused) Theme.Primary.rgb else Theme.DarkGray.rgb)
+                    .color(if (focused) JsTheme.Primary.rgb else JsTheme.DarkGray.rgb)
                     .transition(CSSTransition(property = "color", duration = 200.ms)),
                 size = IconSize.SM
             )
@@ -111,7 +111,7 @@ fun SearchBar(
         FaMagnifyingGlass(
             modifier = Modifier
                 .margin(right = 14.px)
-                .color(Theme.Primary.rgb)
+                .color(JsTheme.Primary.rgb)
                 .cursor(Cursor.Pointer)
                 .onClick { onSearchIconClick(true) },
             size = IconSize.SM

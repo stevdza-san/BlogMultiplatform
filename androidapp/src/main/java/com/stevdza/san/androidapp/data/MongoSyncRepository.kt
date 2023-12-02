@@ -1,6 +1,6 @@
 package com.stevdza.san.androidapp.data
 
-import com.stevdza.san.androidapp.models.Category
+import com.example.shared.Category
 import com.stevdza.san.androidapp.models.Post
 import com.stevdza.san.androidapp.util.RequestState
 import kotlinx.coroutines.flow.Flow

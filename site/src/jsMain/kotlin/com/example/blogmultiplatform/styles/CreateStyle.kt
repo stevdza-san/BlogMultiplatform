@@ -1,6 +1,6 @@
 package com.example.blogmultiplatform.styles
 
-import com.example.blogmultiplatform.models.Theme
+import com.example.shared.JsTheme
 import com.varabyte.kobweb.compose.css.CSSTransition
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
@@ -17,6 +17,6 @@ val EditorKeyStyle by ComponentStyle {
             .transition(CSSTransition(property = "background", duration = 300.ms))
     }
     hover {
-        Modifier.backgroundColor(Theme.Primary.rgb)
+        Modifier.backgroundColor(JsTheme.Primary.rgb)
     }
 }

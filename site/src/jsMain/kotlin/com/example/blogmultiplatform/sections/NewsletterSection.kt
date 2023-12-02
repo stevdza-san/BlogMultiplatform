@@ -8,7 +8,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.example.blogmultiplatform.components.MessagePopup
 import com.example.blogmultiplatform.models.Newsletter
-import com.example.blogmultiplatform.models.Theme
+import com.example.shared.JsTheme
 import com.example.blogmultiplatform.styles.NewsletterInputStyle
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
 import com.example.blogmultiplatform.util.Constants.PAGE_WIDTH
@@ -138,7 +138,7 @@ fun NewsletterContent(
                 .fontFamily(FONT_FAMILY)
                 .fontSize(18.px)
                 .fontWeight(FontWeight.Normal)
-                .color(Theme.HalfBlack.rgb)
+                .color(JsTheme.HalfBlack.rgb)
                 .textAlign(TextAlign.Center),
             text = "Keep up with the latest news and blogs."
         )
@@ -187,8 +187,8 @@ fun SubscriptionForm(
             .id(Id.emailInput)
             .width(320.px)
             .height(54.px)
-            .color(Theme.DarkGray.rgb)
-            .backgroundColor(Theme.Gray.rgb)
+            .color(JsTheme.DarkGray.rgb)
+            .backgroundColor(JsTheme.Gray.rgb)
             .padding(leftRight = 24.px)
             .margin(
                 right = if (vertical) 0.px else 20.px,
@@ -218,7 +218,7 @@ fun SubscriptionForm(
                 }
             }
             .height(54.px)
-            .backgroundColor(Theme.Primary.rgb)
+            .backgroundColor(JsTheme.Primary.rgb)
             .borderRadius(100.px)
             .padding(leftRight = 50.px)
             .noBorder()

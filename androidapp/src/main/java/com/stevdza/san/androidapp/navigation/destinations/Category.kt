@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.stevdza.san.androidapp.models.Category
+import com.example.shared.Category
 import com.stevdza.san.androidapp.navigation.Screen
 import com.stevdza.san.androidapp.screens.category.CategoryScreen
 import com.stevdza.san.androidapp.screens.category.CategoryViewModel

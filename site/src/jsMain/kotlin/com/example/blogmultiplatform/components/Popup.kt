@@ -2,7 +2,7 @@ package com.example.blogmultiplatform.components
 
 import androidx.compose.runtime.Composable
 import com.example.blogmultiplatform.models.EditorControl
-import com.example.blogmultiplatform.models.Theme
+import com.example.shared.JsTheme
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
 import com.example.blogmultiplatform.util.Id
 import com.example.blogmultiplatform.util.noBorder
@@ -56,7 +56,7 @@ fun MessagePopup(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .backgroundColor(Theme.HalfBlack.rgb)
+                .backgroundColor(JsTheme.HalfBlack.rgb)
                 .onClick { onDialogDismiss() }
         )
         Box(
@@ -94,7 +94,7 @@ fun ControlPopup(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .backgroundColor(Theme.HalfBlack.rgb)
+                .backgroundColor(JsTheme.HalfBlack.rgb)
                 .onClick { onDialogDismiss() }
         )
         Column(
@@ -116,7 +116,7 @@ fun ControlPopup(
                     .fontSize(14.px)
                     .noBorder()
                     .borderRadius(r = 4.px)
-                    .backgroundColor(Theme.LightGray.rgb)
+                    .backgroundColor(JsTheme.LightGray.rgb)
                     .toAttrs {
                         attr(
                             "placeholder",
@@ -136,7 +136,7 @@ fun ControlPopup(
                     .fontSize(14.px)
                     .noBorder()
                     .borderRadius(r = 4.px)
-                    .backgroundColor(Theme.LightGray.rgb)
+                    .backgroundColor(JsTheme.LightGray.rgb)
                     .toAttrs {
                         attr(
                             "placeholder",
@@ -157,7 +157,7 @@ fun ControlPopup(
                     .fillMaxWidth()
                     .height(54.px)
                     .borderRadius(r = 4.px)
-                    .backgroundColor(Theme.Primary.rgb)
+                    .backgroundColor(JsTheme.Primary.rgb)
                     .color(Colors.White)
                     .noBorder()
                     .fontFamily(FONT_FAMILY)

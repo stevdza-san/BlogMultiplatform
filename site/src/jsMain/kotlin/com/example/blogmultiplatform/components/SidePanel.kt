@@ -7,7 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import com.example.blogmultiplatform.models.Theme
+import com.example.shared.JsTheme
 import com.example.blogmultiplatform.navigation.Screen
 import com.example.blogmultiplatform.styles.NavigationItemStyle
 import com.example.blogmultiplatform.util.Constants.COLLAPSED_PANEL_HEIGHT
@@ -85,7 +85,7 @@ private fun SidePanelInternal() {
             .width(SIDE_PANEL_WIDTH.px)
             .height(100.vh)
             .position(Position.Fixed)
-            .backgroundColor(Theme.Secondary.rgb)
+            .backgroundColor(JsTheme.Secondary.rgb)
             .zIndex(9)
     ) {
         Image(
@@ -105,7 +105,7 @@ fun NavigationItems() {
             .margin(bottom = 30.px)
             .fontFamily(FONT_FAMILY)
             .fontSize(14.px)
-            .color(Theme.HalfWhite.rgb),
+            .color(JsTheme.HalfWhite.rgb),
         text = "Dashboard"
     )
     NavigationItem(
@@ -172,7 +172,7 @@ private fun NavigationItem(
                 .fontSize(16.px)
                 .thenIf(
                     condition = selected,
-                    other = Modifier.color(Theme.Primary.rgb)
+                    other = Modifier.color(JsTheme.Primary.rgb)
                 ),
             text = title
         )
@@ -197,7 +197,7 @@ private fun VectorIcon(
     ) {
         Path {
             if (selected) {
-                attr(attr = "style", value = "stroke: ${Theme.Primary.hex}")
+                attr(attr = "style", value = "stroke: ${JsTheme.Primary.hex}")
             }
             attr(attr = "id", value = Id.vectorIcon)
             attr(attr = "d", value = pathData)
@@ -215,7 +215,7 @@ private fun CollapsedSidePanel(onMenuClick: () -> Unit) {
             .fillMaxWidth()
             .height(COLLAPSED_PANEL_HEIGHT.px)
             .padding(leftRight = 24.px)
-            .backgroundColor(Theme.Secondary.rgb),
+            .backgroundColor(JsTheme.Secondary.rgb),
         verticalAlignment = Alignment.CenterVertically
     ) {
         FaBars(
@@ -267,7 +267,7 @@ fun OverflowSidePanel(
             .zIndex(9)
             .opacity(opacity)
             .transition(CSSTransition(property = "opacity", duration = 300.ms))
-            .backgroundColor(Theme.HalfBlack.rgb)
+            .backgroundColor(JsTheme.HalfBlack.rgb)
     ) {
         Column(
             modifier = Modifier
@@ -278,7 +278,7 @@ fun OverflowSidePanel(
                 .transition(CSSTransition(property = "translate", duration = 300.ms))
                 .overflow(Overflow.Auto)
                 .scrollBehavior(ScrollBehavior.Smooth)
-                .backgroundColor(Theme.Secondary.rgb)
+                .backgroundColor(JsTheme.Secondary.rgb)
         ) {
             Row(
                 modifier = Modifier.margin(bottom = 60.px, top = 24.px),

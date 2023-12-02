@@ -1,8 +1,7 @@
 package com.example.blogmultiplatform.components
 
 import androidx.compose.runtime.Composable
-import com.example.blogmultiplatform.models.Category
-import com.example.blogmultiplatform.models.Theme
+import com.example.shared.JsTheme
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.ui.Alignment
@@ -20,7 +19,7 @@ import org.jetbrains.compose.web.css.px
 
 @Composable
 fun CategoryChip(
-    category: Category,
+    category: com.example.shared.Category,
     darkTheme: Boolean = false
 ) {
     Box(
@@ -31,7 +30,7 @@ fun CategoryChip(
             .border(
                 width = 1.px,
                 style = LineStyle.Solid,
-                color = if(darkTheme) Theme.values().find { it.hex == category.color }?.rgb else Theme.HalfBlack.rgb
+                color = if(darkTheme) JsTheme.entries.find { it.hex == category.color }?.rgb else JsTheme.HalfBlack.rgb
             ),
         contentAlignment = Alignment.Center
     ) {
@@ -40,8 +39,8 @@ fun CategoryChip(
                 .fontFamily(FONT_FAMILY)
                 .fontSize(12.px)
                 .color(
-                    if (darkTheme) Theme.values().find { it.hex == category.color }?.rgb ?: Theme.HalfBlack.rgb
-                    else Theme.HalfBlack.rgb
+                    if (darkTheme) JsTheme.entries.find { it.hex == category.color }?.rgb ?: JsTheme.HalfBlack.rgb
+                    else JsTheme.HalfBlack.rgb
                 ),
             text = category.name
         )

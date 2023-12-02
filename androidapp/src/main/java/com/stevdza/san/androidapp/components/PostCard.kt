@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.stevdza.san.androidapp.models.Category
+import com.example.shared.Category
 import com.stevdza.san.androidapp.models.Post
 import com.stevdza.san.androidapp.util.RequestState
 import com.stevdza.san.androidapp.util.convertLongToDate

@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import com.stevdza.san.androidapp.components.PostCardsView
-import com.stevdza.san.androidapp.models.Category
+import com.example.shared.Category
 import com.stevdza.san.androidapp.models.Post
 import com.stevdza.san.androidapp.util.RequestState
 

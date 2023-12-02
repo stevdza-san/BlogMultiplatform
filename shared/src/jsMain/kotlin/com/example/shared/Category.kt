@@ -1,12 +1,20 @@
-package com.example.blogmultiplatform.models
+package com.example.shared
 
-import org.jetbrains.compose.web.css.CSSColorValue
-import org.jetbrains.compose.web.css.rgb
-import org.jetbrains.compose.web.css.rgba
+import com.varabyte.kobweb.compose.ui.graphics.Color
+import com.varabyte.kobweb.compose.ui.graphics.Color.Companion.rgb
+import com.varabyte.kobweb.compose.ui.graphics.Color.Companion.rgba
+import kotlinx.serialization.Serializable
 
-enum class Theme(
+@Serializable
+actual enum class Category(override val color: String): CategoryColor {
+    Technology(color = JsTheme.Green.hex),
+    Programming(color = JsTheme.Yellow.hex),
+    Design(color = JsTheme.Purple.hex)
+}
+
+enum class JsTheme(
     val hex: String,
-    val rgb: CSSColorValue
+    val rgb: Color.Rgb
 ) {
     Primary(
         hex = "#00A2FF",
@@ -34,11 +42,11 @@ enum class Theme(
     ),
     HalfWhite(
         hex = "#FFFFFF",
-        rgb = rgba(r = 255, g = 255, b = 255, a = 0.5)
+        rgb = rgba(r = 255, g = 255, b = 255, a = 0.5f)
     ),
     HalfBlack(
         hex = "#000000",
-        rgb = rgba(r = 0, g = 0, b = 0, a = 0.5)
+        rgb = rgba(r = 0, g = 0, b = 0, a = 0.5f)
     ),
     White(
         hex = "#FFFFFF",

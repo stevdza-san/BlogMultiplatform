@@ -3,7 +3,7 @@ package com.example.blogmultiplatform.pages.admin
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.example.blogmultiplatform.models.Constants.UPDATED_PARAM
-import com.example.blogmultiplatform.models.Theme
+import com.example.shared.JsTheme
 import com.example.blogmultiplatform.navigation.Screen
 import com.example.blogmultiplatform.util.Constants.FONT_FAMILY
 import com.example.blogmultiplatform.util.Res
@@ -51,7 +51,7 @@ fun SuccessPage() {
         )
         SpanText(
             modifier = Modifier
-                .color(Theme.HalfBlack.rgb)
+                .color(JsTheme.HalfBlack.rgb)
                 .fontFamily(FONT_FAMILY)
                 .fontSize(18.px),
             text = "Redirecting you back..."

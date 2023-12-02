@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import com.example.blogmultiplatform.components.PostPreview
 import com.example.blogmultiplatform.models.ApiListResponse
 import com.example.blogmultiplatform.models.PostWithoutDetails
-import com.example.blogmultiplatform.models.Theme
+import com.example.shared.JsTheme
 import com.example.blogmultiplatform.util.Constants.PAGE_WIDTH
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -28,7 +28,7 @@ fun MainSection(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .backgroundColor(Theme.Secondary.rgb),
+            .backgroundColor(JsTheme.Secondary.rgb),
         contentAlignment = Alignment.Center
     ) {
         Box(

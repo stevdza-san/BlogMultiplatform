@@ -12,7 +12,7 @@ import com.example.blogmultiplatform.components.CategoryNavigationItems
 import com.example.blogmultiplatform.components.LoadingIndicator
 import com.example.blogmultiplatform.components.OverflowSidePanel
 import com.example.blogmultiplatform.models.ApiListResponse
-import com.example.blogmultiplatform.models.Category
+import com.example.shared.Category
 import com.example.blogmultiplatform.models.Constants.CATEGORY_PARAM
 import com.example.blogmultiplatform.models.Constants.POSTS_PER_PAGE
 import com.example.blogmultiplatform.models.Constants.QUERY_PARAM

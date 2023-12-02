@@ -21,7 +21,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.unit.dp
 import com.stevdza.san.androidapp.components.NavigationDrawer
 import com.stevdza.san.androidapp.components.PostCardsView
-import com.stevdza.san.androidapp.models.Category
+import com.example.shared.Category
 import com.stevdza.san.androidapp.models.Post
 import com.stevdza.san.androidapp.util.RequestState
 import kotlinx.coroutines.launch

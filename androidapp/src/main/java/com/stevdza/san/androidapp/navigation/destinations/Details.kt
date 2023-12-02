@@ -4,7 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.blogmultiplatform.Constants
+import com.example.shared.Constants
 import com.stevdza.san.androidapp.navigation.Screen
 import com.stevdza.san.androidapp.screens.details.DetailsScreen
 import com.stevdza.san.androidapp.util.Constants.POST_ID_ARGUMENT
