@@ -35,7 +35,7 @@ import com.varabyte.kobweb.compose.css.Overflow
 import com.varabyte.kobweb.compose.css.Resize
 import com.varabyte.kobweb.compose.css.ScrollBehavior
 import com.varabyte.kobweb.compose.css.Visibility
-import com.varabyte.kobweb.compose.file.loadDataUrlFromDisk
+import com.varabyte.kobweb.browser.file.loadDataUrlFromDisk
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -548,7 +548,7 @@ fun ThumbnailUploader(
                 .onClick {
                     document.loadDataUrlFromDisk(
                         accept = "image/png, image/jpeg",
-                        onLoaded = {
+                        onLoad = {
                             onThumbnailSelect(filename, it)
                         }
                     )

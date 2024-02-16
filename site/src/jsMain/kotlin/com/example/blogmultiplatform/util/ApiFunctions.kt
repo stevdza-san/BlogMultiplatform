@@ -14,7 +14,7 @@ import com.example.blogmultiplatform.models.RandomJoke
 import com.example.blogmultiplatform.models.User
 import com.example.blogmultiplatform.models.UserWithoutPassword
 import com.varabyte.kobweb.browser.api
-import com.varabyte.kobweb.compose.http.http
+import com.varabyte.kobweb.browser.http.http
 import kotlinx.browser.localStorage
 import kotlinx.browser.window
 import kotlinx.serialization.json.Json
